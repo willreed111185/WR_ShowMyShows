@@ -1,0 +1,27 @@
+{
+  "name": "show_my_shows",
+  "version": "1.0.0",
+  "description": "extension of ShowMeShows, User ability to add shows to watch/favorite lists",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitKendra/ShowMyShows.git"
+  },
+  "author": "KendraMonicaBilly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gitKendra/ShowMyShows/issues"
+  },
+  "homepage": "https://github.com/gitKendra/ShowMyShows#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mysql2": "^1.4.2",
+    "sequelize": "^4.22.5"
+  }
+}
