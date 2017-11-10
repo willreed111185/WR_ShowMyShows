@@ -3,7 +3,16 @@ var db = require("../models");
 module.exports = function(app) {
 
   app.get("/", function(req,res){
-  	res.render("index");
+    // // Query users from database
+    var users = {
+      user: [
+        {id: "1", username: "Kendra"},
+        {id: "2", username: "Monica"},
+        {id: "3", username: "Billy"}
+      ]
+    }
+
+  	res.render("login", users);
   })
 
   app.get("/api/authors", function(req, res) {
