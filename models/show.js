@@ -1,23 +1,22 @@
 module.exports = function(sequelize, DataTypes) {
   var Show = sequelize.define("Show", {
-    name: {
+    title: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1]
-      }
+      allowNull: false
+    }
+    OMDB_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
+    imgURL: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+    contentURL: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   });
-
-  // Post.associate = function(models) {
-  //   // We're saying that a Post should belong to an Author
-  //   // A Post can't be created without an Author due to the foreign key constraint
-  //   Post.belongsTo(models.Author, {
-  //     foreignKey: {
-  //       allowNull: false
-  //     }
-  //   });
-  // };
 
   return Show;
 };
