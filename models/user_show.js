@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     relation: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
     Status: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
