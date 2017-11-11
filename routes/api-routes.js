@@ -4,56 +4,73 @@ module.exports = function(app) {
 
   app.get("/", function(req,res){
     // // Query users from database
-    var users = {
-      user: [
-        {id: "1", username: "Kendra"},
-        {id: "2", username: "Monica"},
-        {id: "3", username: "Billy"}
-      ]
-    }
-
-  	res.render("login", users);
+    db.User.findAll({})
+    .then(function(dbUsers){
+      // res.render("login",dbUsers)
+      var userObj = {
+        user:dbUsers
+      }
+      res.render("login", userObj);
+    });  
   })
 
-  app.get("/api/authors", function(req, res) {
-    // Here we add an "include" property to our options in our findAll query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Post
-    db.Author.findAll({
-      include: [db.Post]
-    }).then(function(dbAuthor) {
-      res.json(dbAuthor);
-    });
-  });
-
-  app.get("/api/authors/:id", function(req, res) {
-    // Here we add an "include" property to our options in our findOne query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Post
-    db.Author.findOne({
-      where: {
-        id: req.params.id
-      },
-      include: [db.Post]
-    }).then(function(dbAuthor) {
-      res.json(dbAuthor);
-    });
-  });
-
-  app.post("/api/authors", function(req, res) {
-    db.Author.create(req.body).then(function(dbAuthor) {
-      res.json(dbAuthor);
-    });
-  });
-
-  app.delete("/api/authors/:id", function(req, res) {
-    db.Author.destroy({
-      where: {
-        id: req.params.id
+  app.get("/api/user/:Userid", function(req, res) {
+  // Pull up top 5 of each watchList   ascending, limit 5, join
+    // {
+    //   favorites:[array of favsObj{showID, imgURL, title}]
+    //   watchList:[array of watchlistObg{showID, imgURL, title}]
+    // }
+    db.User.findOne({
+      limit:1,
+      where:{
+        id:req.params.Userid
       }
-    }).then(function(dbAuthor) {
-      res.json(dbAuthor);
-    });
+    }).then(function(dbUsers){
+      var userObj = {
+        user:dbUsers
+      }
+      console.log(userObj);
+      res.render("index", userObj);
+    })
   });
 
-};
+  app.get("/api/show/:Showid", function(req, res) {
+      // json to return all shows or a specific one (devOps only)
+      //   {
+      //     [array of all shows or a specific one]
+      //   }
+
+  });
+
+  app.get("/api/user/:Userid/:relation/?count", function(req, res) {
+      // to get whole(or part) view of relationship
+      //   {
+      //     relationship:[array of relationshipObj{showID, imgURL, title}]
+      //   }
+  });
+
+  app.post("/api_search/:userID/:showID/:title/:imgURL", function(req, res) {
+  // create show !=exists, create bridge entry/link
+  //   {
+  //     status
+  //   } HndlBrs:index->refreshPage/get
+  });
+
+  app.post("/api_relation/:userID/:showID/:relation", function(req, res) {
+      // db.Author.create(req.body).then(function(dbAuthor) {
+      //   res.json(dbAuthor);
+      // });
+  });
+
+  app.delete("/api_relation/:userShowID", function(req, res) {
+    //   db.Author.destroy({
+    //     where: {
+    //       id: req.params.id
+    //     }
+    //   }).then(function(dbAuthor) {
+    //     res.json(dbAuthor);
+    //   });
+    // });
+
+  });
+}
