@@ -10,5 +10,13 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
+  User.associate = function(models) {
+    User.belongsToMany(models.Show, {
+      foreignKey: {
+        allowNull: false
+      },
+      through: models.user_show
+    });
+  };
   return User;
 };

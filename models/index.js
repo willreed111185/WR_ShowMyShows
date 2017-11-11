@@ -29,8 +29,9 @@ Object.keys(db).forEach(function(modelName) {
     db[modelName].associate(db);
   }
 });
-db.User.belongsToMany(db.Show, { through: db.user_show,unique: false });
-db.Show.belongsToMany(db.User, { through: db.user_show,unique: false });
+
+// db.User.belongsToMany(db.Show, { through: db.user_show,unique: false });
+// db.Show.belongsToMany(db.User, { through: db.user_show,unique: false });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

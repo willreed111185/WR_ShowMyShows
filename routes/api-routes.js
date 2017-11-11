@@ -51,17 +51,17 @@ module.exports = function(app) {
       //   {
       //     [array of all shows or a specific one]
       //   }
-    db.User.findOne({
+    db.Show.findOne({
       limit:1,
       where:{
         OMDB_id:req.params.Showid
       }
-    }).then(function(dbUsers){
-      var userObj = {
-        user:dbUsers
+    }).then(function(dbShow){
+      var showObj = {
+        user:dbShow
       }
-      console.log(userObj);
-      res.render("index", userObj);
+      console.log(showObj);
+      res.render("index", showObj);
     })
 
   });
