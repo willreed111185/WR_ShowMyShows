@@ -25,10 +25,50 @@
 		{{{body}}}
 
 	</div>
-	
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary">Add to Favorites</button>
+        <button type="button" class="btn btn-secondary">Add to Watch List</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <footer class="footer fixed-bottom">
         <p class="text-muted">Copyright &copy; 2017 BMK Group Projects</p>
     </footer>
+
+    <script type="text/javascript">
+        $(document).on("click", "#exampleModal", 'show.bs.modal', function (event) {
+
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var recipient = button.data('whatever') // Extract info from data-* attributes
+
+
+          // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+          // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+          var modal = $(this)
+          modal.find('.modal-title').text('New message to ' + recipient)
+          modal.find('.modal-body input').val(recipient)
+
+          <!-- old code to query show data -->
+          console.log("TV Show ID: " + $(this).attr("dataid"));
+          // Call function to query API for the specific show
+          queryShow($(this).attr("dataid"));
+
+        })
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="http://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
