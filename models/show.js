@@ -18,5 +18,14 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
+  Show.associate = function(models) {
+    Show.belongsToMany(models.User, {
+      foreignKey: {
+        allowNull: false
+      },
+      through: models.user_show
+    });
+  };
+
   return Show;
 };

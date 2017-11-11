@@ -47,12 +47,24 @@ module.exports = function(app) {
     //   favorites:[array of favsObj{showID, imgURL, title}]
     //   watchList:[array of watchlistObg{showID, imgURL, title}]
     // }
-    db.User.findOne({
-      limit:1,
-      where:{
-        id:req.params.Userid
-      }
-    }).then(function(dbUsers){
+    // db.user_show.findOne({
+    //   limit:1,
+    //   where:{
+    //     user_id:req.params.Userid
+    //   }
+    // }).
+    users.findAll({
+      where: {
+          user_id : req.params.Userid
+        },
+      include:[
+          {
+            model:user_shows,
+            required:true,
+            include:[{model:shows,required:true}]
+          }
+        ]
+      }).then(function(dbUsers){
       var userObj = {
         user:dbUsers
       }
@@ -67,6 +79,18 @@ module.exports = function(app) {
       //   {
       //     [array of all shows or a specific one]
       //   }
+    db.Show.findOne({
+      limit:1,
+      where:{
+        OMDB_id:req.params.Showid
+      }
+    }).then(function(dbShow){
+      var showObj = {
+        user:dbShow
+      }
+      console.log(showObj);
+      res.render("index", showObj);
+    })
 
   });
 
