@@ -1,9 +1,9 @@
 Table: Users
-		ID 
+		id 
 			not null integer PK
-		Users 
+		username 
 			not null string
-		Passwords 
+		password 
 			not null 
 
 Table: Show
