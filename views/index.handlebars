@@ -1,9 +1,31 @@
-<h1>Show My Shows</h1>
+<!-- Show's username here -->
+<h2>Hello {{username}}!!</h2>
 
 <p>Search and Manage your TV shows with this app.</p>
 
-<!-- Pass in data form server.js -->
+<!-- Pass in first 5 favorites data form server.js -->
+<h3>Favorites: </h3><br>
+<div class="row fav_list justify-content-md">
+	<div class="col-md">
+		{{#each favorite}}
+			<div class="fav float-left">
+	    		<img src={{imgURL}} class="img-thumbnail" data-attribute={{id}} alt="Cinque Terre" data-toggle="modal" data-target="#exampleModal"><br>{{title}}<br>{{showID}}</a>
+		  	</div>
+		{{/each}}
+	</div>
+</div>
 
-<h2>Add To Watch</h2>
-<h2>Add Watching</h2>
-<h2>Add Favorite</h2>
+<!-- Pass in first 5 watchList data form server.js -->
+<h3>Watch List: </h3><br>
+<div class="row watchList justify-content-md">
+	<div class="col-md">
+		{{#each watchList}}
+			<div class="watch float-left">
+	    		<img src={{imgURL}} class="img-thumbnail" data-attribute={{id}} alt="Cinque Terre" data-toggle="modal" data-target="#exampleModal"><br>{{title}}<br>{{showID}}</a>
+		  	</div>
+		{{/each}}
+	</div>
+</div>
+
+
+
