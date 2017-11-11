@@ -10,70 +10,67 @@ module.exports = function(app) {
       var userObj = {
         user:dbUsers
       }
-      console.log(userObj);
       res.render("login", userObj);
     });  
   })
 
   app.get("/api/user/:Userid", function(req, res) {
-    // Here we add an "include" property to our options in our findAll query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Post
-    // db.Author.findAll({
-    //   include: [db.Post]
-    // }).then(function(dbAuthor) {
-    //   res.json(dbAuthor);
-    // });
+  // Pull up top 5 of each watchList   ascending, limit 5, join
+    // {
+    //   favorites:[array of favsObj{showID, imgURL, title}]
+    //   watchList:[array of watchlistObg{showID, imgURL, title}]
+    // }
+    db.User.findOne({
+      limit:1,
+      where:{
+        id:req.params.Userid
+      }
+    }).then(function(dbUsers){
+      var userObj = {
+        user:dbUsers
+      }
+      console.log(userObj);
+      res.render("index", userObj);
+    })
   });
 
   app.get("/api/show/:Showid", function(req, res) {
-    // Here we add an "include" property to our options in our findOne query
-    // We set the value to an array of the models we want to include in a left outer join
-    // // In this case, just db.Post
-    // db.Author.findOne({
-    //   where: {
-    //     id: req.params.id
-    //   },
-    //   include: [db.Post]
-    // }).then(function(dbAuthor) {
-    //   res.json(dbAuthor);
-    // });
+      // json to return all shows or a specific one (devOps only)
+      //   {
+      //     [array of all shows or a specific one]
+      //   }
+
   });
 
   app.get("/api/user/:Userid/:relation/?count", function(req, res) {
-    // Here we add an "include" property to our options in our findOne query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Post
-    // db.Author.findOne({
-    //   where: {
-    //     id: req.params.id
-    //   },
-    //   include: [db.Post]
-    // }).then(function(dbAuthor) {
-    //   res.json(dbAuthor);
-    // });
+      // to get whole(or part) view of relationship
+      //   {
+      //     relationship:[array of relationshipObj{showID, imgURL, title}]
+      //   }
   });
 
   app.post("/api_search/:userID/:showID/:title/:imgURL", function(req, res) {
-    // db.Author.create(req.body).then(function(dbAuthor) {
-    //   res.json(dbAuthor);
-    // });
+  // create show !=exists, create bridge entry/link
+  //   {
+  //     status
+  //   } HndlBrs:index->refreshPage/get
   });
 
   app.post("/api_relation/:userID/:showID/:relation", function(req, res) {
-    // db.Author.create(req.body).then(function(dbAuthor) {
-    //   res.json(dbAuthor);
-    // });
+      // db.Author.create(req.body).then(function(dbAuthor) {
+      //   res.json(dbAuthor);
+      // });
   });
 
   app.delete("/api_relation/:userShowID", function(req, res) {
-  //   db.Author.destroy({
-  //     where: {
-  //       id: req.params.id
-  //     }
-  //   }).then(function(dbAuthor) {
-  //     res.json(dbAuthor);
-  //   });
-  // });
+    //   db.Author.destroy({
+    //     where: {
+    //       id: req.params.id
+    //     }
+    //   }).then(function(dbAuthor) {
+    //     res.json(dbAuthor);
+    //   });
+    // });
 
-};
+  });
+}
