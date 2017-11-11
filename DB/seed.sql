@@ -1,5 +1,8 @@
-Something
+INSERT INTO users (username, password)
+VALUES ("Kendra", "admin");
 
-insert
-	insert
-		insert
+INSERT INTO users (username, password)
+VALUES ("Monica", "admin");
+
+INSERT INTO users (username, password)
+VALUES ("Billy", "admin");
