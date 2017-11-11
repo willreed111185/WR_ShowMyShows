@@ -4,7 +4,7 @@
 		<h3>Select a user: </h3>
 		<ul class="people_list">
 			{{#each user}}
-	    	<li><a class="btn btn-dark btn-block user-login" id={{id}} role="button">{{username}}</a></li>
+	    	<li><button type="button" class="btn btn-dark btn-block user-login" data-id={{id}}>{{username}}</button></li>
 	  		{{/each}}
 		</ul>
 	</div>
