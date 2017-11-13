@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define("User", {
+  const User = sequelize.define("user", {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -10,5 +10,22 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
+<<<<<<< Updated upstream
+=======
+  User.associate = function(models) {
+      User.belongsToMany(models.show, {
+          through: {
+              model: models.user_show,
+              unique: false,
+              scope: {
+                  taggable: 'searched'
+              }
+          },
+          foreignKey: 'taggable_id',
+          constraints: false
+      });
+  }
+  
+>>>>>>> Stashed changes
   return User;
 };
