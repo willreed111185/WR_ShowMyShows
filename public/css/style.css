@@ -24,3 +24,8 @@ ul {
 footer {
 	text-align: center;
 }
+
+.modal {
+	color: black;
+	background-color: black;
+}

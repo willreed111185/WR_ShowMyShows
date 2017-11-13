@@ -10,8 +10,6 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-<<<<<<< Updated upstream
-=======
   User.associate = function(models) {
       User.belongsToMany(models.show, {
           through: {
@@ -25,7 +23,6 @@ module.exports = function(sequelize, DataTypes) {
           constraints: false
       });
   }
-  
->>>>>>> Stashed changes
+
   return User;
 };

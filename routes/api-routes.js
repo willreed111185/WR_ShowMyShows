@@ -31,34 +31,8 @@ module.exports = function(app) {
     });  
   });
 
-<<<<<<< Updated upstream
-  app.get("/api/user/:Userid", function(req, res) {
-  // Pull up top 5 of each watchList   ascending, limit 5, join
-    // {
-    //   favorites:[array of favsObj{showID, imgURL, title}]
-    //   watchList:[array of watchlistObg{showID, imgURL, title}]
-    // }
-    db.User.findOne({
-      limit:1,
-      where:{
-        id:req.params.Userid
-      }
-    }).then(function(dbUsers){
-      var userObj = {
-        user:dbUsers
-      }
-      console.log(userObj);
-      res.render("index", userObj);
-    })
-  });
-
-  app.get("/api/show/:Showid", function(req, res) {
-      // json to return all shows or a specific one (devOps only)
-      //   {
-      //     [array of all shows or a specific one]
-      //   }
-=======
   app.get("/user/:userid", function(req, res) {
+    console.log("GET /user/userid");
     var userid = req.params.userid;
     var user;
     var favorites = [];
@@ -76,8 +50,6 @@ module.exports = function(app) {
 
       res.render("index", user);
     })
->>>>>>> Stashed changes
-
 
   });
 }

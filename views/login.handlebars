@@ -17,7 +17,7 @@
 		<h3>Select a user: </h3>
 		<ul class="people_list">
 			{{#each user}}
-	    	<li><button type="button" class="btn btn-dark btn-block user-login"<a href="/user/{{id}}">{{username}}</a></button></li>
+	    	<li><a href="/user/{{id}}"><button type="button" class="btn btn-dark btn-block user-login">{{username}}</button></a></li>
 	  		{{/each}}
 		</ul>
 	</div>

@@ -42,31 +42,53 @@ $("#showModal").on("show.bs.modal", function(e) {
   var button = $(event.relatedTarget) // Button that triggered the modal
   var type = button.data('type') // Extract info from data-* attributes
 
-  if( type == "search"){
-	  var showInput = $("#show-input").val().trim();
-	  console.log(showInput);
-	  $("#show-input").val("");
+    var showInput = $("#show-input").val().trim();
+    console.log(showInput);
+    $("#show-input").val("");
 
-	  // Performing GET requests to the the movie database API
-	  $.ajax({
-	    url: API_ROOT_URL+"search/tv?api_key="+API_KEY+"&language=en-US&query="+showInput+"&page=1",
-	    method: "GET"
-	  }).done(function(response) {
-	    if (response.results.length == 0){
-	      // Alert user that could not find the show
-	      $("#show-input").attr("style", "border-color: red; border-width: 1.3px");
-	      $("#show-input").attr("placeholder", "Show not found");
-	    }
-	    else{
-	      $("#show-input").removeAttr("style");
-	      $("#show-input").attr("placeholder", "Search");
-	      queryShow(response.results[0].id);
-	    }
-	  });
-	}
-  else{
-		// search based on data-id for query
-  }
+    // Performing GET requests to the the movie database API
+    $.ajax({
+      url: API_ROOT_URL+"search/tv?api_key="+API_KEY+"&language=en-US&query="+showInput+"&page=1",
+      method: "GET"
+    }).done(function(response) {
+      if (response.results.length == 0){
+        // Alert user that could not find the show
+        $("#show-input").attr("style", "border-color: red; border-width: 1.3px");
+        $("#show-input").attr("placeholder", "Show not found");
+      }
+      else{
+        $("#show-input").removeAttr("style");
+        $("#show-input").attr("placeholder", "Search");
+        queryShow(response.results[0].id);
+      }
+    });
+
+
+ //  if( type == "search"){
+	//   var showInput = $("#show-input").val().trim();
+	//   console.log(showInput);
+	//   $("#show-input").val("");
+
+	//   // Performing GET requests to the the movie database API
+	//   $.ajax({
+	//     url: API_ROOT_URL+"search/tv?api_key="+API_KEY+"&language=en-US&query="+showInput+"&page=1",
+	//     method: "GET"
+	//   }).done(function(response) {
+	//     if (response.results.length == 0){
+	//       // Alert user that could not find the show
+	//       $("#show-input").attr("style", "border-color: red; border-width: 1.3px");
+	//       $("#show-input").attr("placeholder", "Show not found");
+	//     }
+	//     else{
+	//       $("#show-input").removeAttr("style");
+	//       $("#show-input").attr("placeholder", "Search");
+	//       queryShow(response.results[0].id);
+	//     }
+	//   });
+	// }
+ //  else{
+	// 	// search based on data-id for query
+ //  }
 })
 
 // Get individual show details to update modal
