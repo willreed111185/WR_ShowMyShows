@@ -15,12 +15,9 @@ module.exports = function(sequelize, DataTypes) {
       User.belongsToMany(models.show, {
           through: {
               model: models.user_show,
-              unique: false,
-              scope: {
-                  taggable: 'searched'
-              }
+              unique: false
           },
-          foreignKey: 'taggable_id',
+          oreignKey: 'showId',
           constraints: false
       });
   }
