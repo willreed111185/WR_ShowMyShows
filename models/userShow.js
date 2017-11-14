@@ -5,20 +5,16 @@ module.exports = function(sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true
     },
-    show_id: {
-        type: DataTypes.INTEGER,
-        unique: 'user_show_taggable'
-    },
     relation: {
         type: DataTypes.STRING,
-        unique: 'user_show_taggable'
-    },
-    user_id: {
-        type: DataTypes.INTEGER,
-        unique: 'user_show_taggable',
-        references: null
+        unique: false
     }
   });
+
+    userShow.associate = function (models) {
+      userShow.belongsTo(models.user);
+      userShow.belongsTo(models.show);
+  }
 
   return userShow;
 };
