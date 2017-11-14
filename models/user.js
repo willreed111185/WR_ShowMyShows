@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define("User", {
+  const User = sequelize.define("user", {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -11,12 +11,15 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   User.associate = function(models) {
-    User.belongsToMany(models.Show, {
-      foreignKey: {
-        allowNull: false
-      },
-      through: models.user_show
-    });
-  };
+
+      User.belongsToMany(models.show, {
+          through: {
+              model: models.user_show,
+              unique: false
+          },
+          oreignKey: 'showId',
+          constraints: false
+      });
+  }
   return User;
 };

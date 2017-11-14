@@ -25,10 +25,6 @@ footer {
 	text-align: center;
 }
 
-.modal-backdrop {
-   background-color: black;
-}
-
-.modal-content {
-	background-color: black;
+.modal {
+	color: black;
 }
