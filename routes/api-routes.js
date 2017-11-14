@@ -73,8 +73,8 @@ module.exports = function(app) {
               favorite: favoritesArray,
               watchList: watchlistArray
             }
-            res.json(user);
-            //res.render("index", user);
+            //res.json(user);
+            res.render("index", user);
             console.log(user);
           })
         })

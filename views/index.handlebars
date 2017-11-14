@@ -17,7 +17,7 @@
 	<div class="col-md">
 		{{#each favorite}}
 			<div class="fav float-left">
-	    		<img src={{imgURL}} class="img-thumbnail" data-id={{id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{title}}<br>{{showID}}</a>
+	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{show.title}}<br>{{show.OMDB_id}}</a>
 		  	</div>
 		{{/each}}
 	</div>
@@ -29,7 +29,7 @@
 	<div class="col-md">
 		{{#each watchList}}
 			<div class="watch float-left">
-	    		<img src={{imgURL}} class="img-thumbnail" data-id={{id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{title}}<br>{{showID}}</a>
+	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{show.title}}<br>{{show.OMDB_id}}</a>
 		  	</div>
 		{{/each}}
 	</div>
