@@ -2,15 +2,22 @@
 <h2>Hello {{username}}!!</h2>
 
 <p>Search and Manage your TV shows with this app.</p>
+<form class="search-bar">
 
-<<<<<<< HEAD
+	<div class="form-group">
+	  <input type="text" class="form-control" placeholder="Find a show" id="show-input">
+	</div>
+	<button type="button" class="btn btn-default" data-type="search" data-toggle="modal" data-target="#showModal">Search</button>
+
+</form>
+
 <!-- Pass in first 5 favorites data form server.js -->
 <h3>Favorites: </h3><br>
 <div class="row fav_list justify-content-md">
 	<div class="col-md">
 		{{#each favorite}}
 			<div class="fav float-left">
-	    		<img src={{imgURL}} class="img-thumbnail" data-attribute={{id}} alt="Cinque Terre" data-toggle="modal" data-target="#exampleModal"><br>{{title}}<br>{{showID}}</a>
+	    		<img src={{imgURL}} class="img-thumbnail" data-id={{id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{title}}<br>{{showID}}</a>
 		  	</div>
 		{{/each}}
 	</div>
@@ -22,22 +29,42 @@
 	<div class="col-md">
 		{{#each watchList}}
 			<div class="watch float-left">
-	    		<img src={{imgURL}} class="img-thumbnail" data-attribute={{id}} alt="Cinque Terre" data-toggle="modal" data-target="#exampleModal"><br>{{title}}<br>{{showID}}</a>
+	    		<img src={{imgURL}} class="img-thumbnail" data-id={{id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{title}}<br>{{showID}}</a>
 		  	</div>
 		{{/each}}
 	</div>
 </div>
 
+<!-- Search Show Modal -->
+<!-- Modal -->
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
 
+        <h5 class="modal-title text-center" id="ShowTitle"></h5>
 
-=======
-<!-- Pass in data form server.js -->
-<!-- List of users shows -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
 
+      </div>
 
-<h2>Add To Watch</h2>
-<h2>Add Watching</h2>
-<h2>Add Favorite</h2>
+      <div class="modal-body" id="modalTextBox">
+        <div class="text-center"><img id="modImage"></div>
+		<h5 class="modalInfo">Last Aired</h5>
+		<p id="time"></p>
+	    <h5 class="modalInfo">Plot</h5>
+	    <p id="plot"></p>
+      </div>
 
-<!-- Bootstrp buttons: on click of button add or update database with that shows status as a to watch, watching, or favorite -->
->>>>>>> ba732c4cf9fd23596c03b0064f437ddd0d1dc140
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Add to Favorites</button>
+        <button type="button" class="btn btn-primary">Add to Watchlist</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="/js/show.js"></script>

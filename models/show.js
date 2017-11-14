@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Show = sequelize.define("Show", {
+  var Show = sequelize.define("show", {
     title: {
       type: DataTypes.STRING,
       allowNull: false
@@ -18,14 +18,16 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  Show.associate = function(models) {
-    Show.belongsToMany(models.User, {
-      foreignKey: {
-        allowNull: false
-      },
-      through: models.user_show
-    });
-  };
+  Show.associate = function (models) {
+      Show.belongsToMany(models.user, {
+          through: {
+              model: models.user_show,
+              unique: false
+          },
+          foreignKey: 'user_id',
+          constraints: false
+      });
+  }
 
   return Show;
 };
