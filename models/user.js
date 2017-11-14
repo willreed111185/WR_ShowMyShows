@@ -11,6 +11,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   User.associate = function(models) {
+
       User.belongsToMany(models.show, {
           through: {
               model: models.user_show,
@@ -23,6 +24,5 @@ module.exports = function(sequelize, DataTypes) {
           constraints: false
       });
   }
-
   return User;
 };

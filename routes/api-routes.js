@@ -42,7 +42,7 @@ module.exports = function(app) {
     // Query database to find user and their favorite and watchlist shows
     db.user.findById(userid).then(function(dbUser){
 
-      var user = {
+      var user = {  
       username: dbUser.username,
       favorite:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
       watchList:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
@@ -50,6 +50,7 @@ module.exports = function(app) {
 
       res.render("index", user);
     })
+
 
   });
 }
@@ -78,6 +79,25 @@ module.exports = function(app) {
   //     console.log(showObj);
   //     res.render("index", showObj);
   //   })
+
+  // app.get("/api/show/:Showid", function(req, res) {
+  //     // json to return all shows or a specific one (devOps only)
+  //     //   {
+  //     //     [array of all shows or a specific one]
+  //     //   }
+  //   db.Show.findOne({
+  //     limit:1,
+  //     where:{
+  //       OMDB_id:req.params.Showid
+  //     }
+  //   }).then(function(dbShow){
+  //     var showObj = {
+  //       user:dbShow
+  //     }
+  //     console.log(showObj);
+  //     res.render("index", showObj);
+  //   })
+
 
   // });
 
