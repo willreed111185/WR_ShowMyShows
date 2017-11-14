@@ -40,31 +40,32 @@ module.exports = function(app) {
 
     console.log("User Id Selected: " + userid);
     // Query database to find user and their favorite and watchlist shows
-    // db.user.findById(userid).then(function(dbUser){
+    db.user.findById(userid).then(function(dbUser){
 
-    //   var user = {  
-    //   username: dbUser.username,
-    //   favorite:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
-    //   watchList:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
+      var user = {  
+      user_id: userid,
+      username: dbUser.username,
+      favorite:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
+      watchList:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
+      }
+
+      res.render("index", user);
+    })
+
+    // db.user_show.findAll({
+    //   where:{
+    //     userId:req.params.userid
+    //   },
+    //   include:{
+    //     model:db.show
     //   }
-
-    //   res.render("index", user);
-    // })
-
-    db.user_show.findAll({
-      where:{
-        userId:req.params.userid
-      },
-      include:{
-        model:db.show
-      }
-    }).then(function(dbUserShow){
-      for(var i=0;i<dbUserShow.length;i++){
-        console.log(dbUserShow[i].dataValues)
-      }
+    // }).then(function(dbUserShow){
+    //   for(var i=0;i<dbUserShow.length;i++){
+    //     console.log(dbUserShow[i].dataValues)
+    //   }
         // }
         //res.render("index", user);
-      })
+    //  })
   });
 }
   // app.get("/api/user/:userid/:relation", function(req, res) {
