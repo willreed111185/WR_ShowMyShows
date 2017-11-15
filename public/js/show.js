@@ -35,8 +35,13 @@ $.ajax({
 
 // })
 
-
 // Event handler for user search
+$("#search-form").submit(function(e){
+  e.preventDefault();
+  $('#showModal').modal('show');
+})
+
+// Show modal on user search or selecting show from list
 $("#showModal").on("show.bs.modal", function(e) {
 
   var button = $(event.relatedTarget) // Button that triggered the modal
@@ -59,37 +64,23 @@ $("#showModal").on("show.bs.modal", function(e) {
       else{
         $("#show-input").removeAttr("style");
         $("#show-input").attr("placeholder", "Search");
+        
+
         queryShow(response.results[0].id);
       }
     });
-
-
- //  if( type == "search"){
-	//   var showInput = $("#show-input").val().trim();
-	//   console.log(showInput);
-	//   $("#show-input").val("");
-
-	//   // Performing GET requests to the the movie database API
-	//   $.ajax({
-	//     url: API_ROOT_URL+"search/tv?api_key="+API_KEY+"&language=en-US&query="+showInput+"&page=1",
-	//     method: "GET"
-	//   }).done(function(response) {
-	//     if (response.results.length == 0){
-	//       // Alert user that could not find the show
-	//       $("#show-input").attr("style", "border-color: red; border-width: 1.3px");
-	//       $("#show-input").attr("placeholder", "Show not found");
-	//     }
-	//     else{
-	//       $("#show-input").removeAttr("style");
-	//       $("#show-input").attr("placeholder", "Search");
-	//       queryShow(response.results[0].id);
-	//     }
-	//   });
-	// }
- //  else{
-	// 	// search based on data-id for query
- //  }
 })
+
+// Create user_show item in db
+$("#add-btn").on("click", function(e){
+
+  // Extract info from data-* attributes of button
+  var button = $(e.relatedTarget);
+  var user = button.data('userId'); 
+  var show = button.data('showId');
+
+  console.log(user + " " + show);
+});
 
 // Get individual show details to update modal
 function queryShow(showID){
@@ -104,14 +95,9 @@ function queryShow(showID){
     $("#ShowTitle").html(response.name);
     $("#time").html(response.last_air_date);
     $("#plot").html(response.overview);
-    // if(response.networks.length>0){
-    //   $("#network").html(response.networks[0].name);
-    // }else{
-    //   $("#network").html(" ");
-    // }
     $("#modImage").attr("src", "http://image.tmdb.org/t/p/w185"+response.poster_path);
-  //  $("#modalBox").css("display","block"); //show modul
-    
+    $(".add-btn").attr("data-showId", showID);
+//    $("#watch-btn").attr("data-showId", showID);
   }); 
 }
 

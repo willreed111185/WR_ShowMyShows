@@ -1,8 +1,8 @@
 <!-- Show's username here -->
-<h2>Hello {{username}}!!</h2>
+<h2 id="title" data-userId={{user_id}}>Hello {{username}}!!</h2>
 
 <p>Search and Manage your TV shows with this app.</p>
-<form class="search-bar">
+<form class="search-bar" id="search-form">
 
 	<div class="form-group">
 	  <input type="text" class="form-control" placeholder="Find a show" id="show-input">
@@ -59,8 +59,8 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Add to Favorites</button>
-        <button type="button" class="btn btn-primary">Add to Watchlist</button>
+        <button type="button" id="fave-btn" class="btn btn-primary add-btn" data-rel="favorite" data-userId={{user_id}} data-showId="0">Add to Favorites</button>
+        <button type="button" id="watch-btn" class="btn btn-primary add-btn" data-rel="watchlist" data-userId={{user_id}} data-showId="0">Add to Watchlist</button>
       </div>
 
     </div>
