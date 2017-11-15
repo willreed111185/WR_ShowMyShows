@@ -163,6 +163,7 @@ module.exports = function(app) {
 
 //POST api info to DB to add new show if it doesn't exist
   app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/:imgURL", function(req, res) {
+    var imgBaseUrl = "http://image.tmdb.org/t/p/w185/";
     db.show.findOne({
       where:{
         OMDB_id : req.params.OMDB_ID
@@ -186,34 +187,29 @@ module.exports = function(app) {
     })
   });
 
-  // app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
-  //   db.show.findOne({
-  //     where:{
-  //       userID : req.params.userID,
-  //       relation: req.params.relation
-  //     },
-  //     include:{
-  //       model:db.show{
-  //         where:{
-  //           OMDB_id:req.params.OMDB_ID
-  //         }
-  //       }
-  //     }
-  //   }).then(function(dbRelationLookUp){
-  //       console.log(dbRelationLookUp);
-  //     //+++++++++++++++++++
-  //     //IF IT DOESNT EXIST
-  //     //+++++++++++++++++++
-  //       db.user_show.create({
-  //         userID:req.params.userID,
-  //         showID:dbRelationLookUp.id,
-  //         relation:req.params.relation
-  //       }).then(function(relationCreate){
-  //         console.log(relationCreate);
-  //         res.redirect("/user/"+req.params.userID);
-  //       })
-  //   });
-  // }
+  app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
+    //search for show_id by OMDBid in shows, then.... 
+    db.show.findOne({
+      where:{
+        userID : req.params.userID,
+        relation: req.params.relation
+        showID: //local var
+      } 
+    }).then(function(dbRelationLookUp){
+        console.log(dbRelationLookUp);
+      //+++++++++++++++++++
+      //IF IT DOESNT EXIST
+      //+++++++++++++++++++
+        db.user_show.create({
+          userID:req.params.userID,
+          showID:dbRelationLookUp.id,
+          relation:req.params.relation
+        }).then(function(relationCreate){
+          console.log(relationCreate);
+          res.redirect("/user/"+req.params.userID);
+        })
+    });
+  })
 
   // app.delete("/api_relation/:userShowID", function(req, res) {
   //   //   db.Author.destroy({
