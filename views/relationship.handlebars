@@ -1,13 +1,13 @@
 <!-- Show's username here -->
 <h2>Hello {{username}}!!</h2>
 
-<!-- Pass in first 5 favorites data form server.js -->
-<h3>Here are all your Favorites: </h3><br>
+<!-- Pass in first all relationship data form server.js -->
+<h3>Here are all your {{Favorites}}: </h3><br>
 <div class="row fav_list justify-content-md">
 	<div class="col-md">
 		{{#each favorite}}
 			<div class="fav float-left">
-	    		<img src={{imgURL}} class="img-thumbnail" data-attribute={{id}} alt="Cinque Terre" data-toggle="modal" data-target="#exampleModal"><br>{{title}}<br>{{showID}}</a>
+	    		<img src={{show.imgURL}} class="img-thumbnail" data-attribute={{show.id}} alt="Cinque Terre" data-toggle="modal" data-target="#exampleModal"><br>{{show.title}}<br>{{show.OMDB_id}}</a>
 		  	</div>
 		{{/each}}
 	</div>
