@@ -162,7 +162,7 @@ module.exports = function(app) {
   // });
 
 //POST api info to DB to add new show if it doesn't exist
-  app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/?imgURL", function(req, res) {
+  app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/:imgURL", function(req, res) {
     db.show.findOne({
       where:{
         OMDB_id : req.params.OMDB_ID
