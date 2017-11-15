@@ -1,14 +1,48 @@
 <!-- Show's username here -->
-<h2>Hello {{username}}!!</h2>
 
 <!-- Pass in first all relationship data form server.js -->
-<h3>Here are all your {{Favorites}}: </h3><br>
-<div class="row fav_list justify-content-md">
+<h3>{{username}} Here are all your {{relation}} Shows: </h3><br>
+<a href="/user/{{user_id}}"><h4>Your Home Page</h4></a>
+<div class="row rel_list justify-content-md">
 	<div class="col-md">
-		{{#each favorite}}
-			<div class="fav float-left">
-	    		<img src={{show.imgURL}} class="img-thumbnail" data-attribute={{show.id}} alt="Cinque Terre" data-toggle="modal" data-target="#exampleModal"><br>{{show.title}}<br>{{show.OMDB_id}}</a>
+		{{#each relationArray}}
+			<div class="rel float-left">
+	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.OMDB_id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{show.title}}<br></a>
 		  	</div>
 		{{/each}}
 	</div>
 </div>
+
+<!-- Search Show Modal -->
+<!-- Modal -->
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h5 class="modal-title text-center" id="ShowTitle"></h5>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+
+      <div class="modal-body" id="modalTextBox">
+        <div class="text-center"><img id="modImage"></div>
+		<h5 class="modalInfo">Last Aired</h5>
+		<p id="time"></p>
+	    <h5 class="modalInfo">Plot</h5>
+	    <p id="plot"></p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="fave-btn" class="btn btn-primary add-btn" data-rel="favorite" data-userId={{user_id}} data-showId="0">Add to Favorites</button>
+        <button type="button" id="watch-btn" class="btn btn-primary add-btn" data-rel="watchlist" data-userId={{user_id}} data-showId="0">Add to Watchlist</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="/js/show.js"></script>
