@@ -12,7 +12,7 @@
 </form>
 
 <!-- Pass in first 5 favorites data form server.js -->
-<h3>Favorites: </h3><br>
+<a href="/rel/user/{{user_id}}/favorite"><h3>Favorites: </h3></a><br>
 <div class="row fav_list justify-content-md">
 	<div class="col-md">
 		{{#each favorite}}
@@ -24,7 +24,7 @@
 </div>
 
 <!-- Pass in first 5 watchList data form server.js -->
-<h3>Watch List: </h3><br>
+<a href="/rel/user/{{user_id}}/watchList"><h3>Watch List: </h3></a><br>
 <div class="row watchList justify-content-md">
 	<div class="col-md">
 		{{#each watchList}}
