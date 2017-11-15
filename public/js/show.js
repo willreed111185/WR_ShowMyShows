@@ -87,7 +87,14 @@ $(".add-btn").on("click", function(e){
     method: "POST"
   }).done(function(response){
     console.log("show added to db");
-    location.reload();
+    $.ajax({
+      url: "api_relation/"+userID+"/"+OMDB_ID+"/"+relation,
+      method: "POST"
+    }).done(function(){
+      console.log("user_show bridge created");
+      location.reload();
+    })
+    
   })
 });
 
