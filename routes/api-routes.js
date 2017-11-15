@@ -187,34 +187,34 @@ module.exports = function(app) {
     })
   });
 
-  app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
-    db.show.findOne({
-      where:{
-        userID : req.params.userID,
-        relation: req.params.relation
-      },
-      include:{
-        model:db.show{
-          where:{
-            OMDB_id: req.params.OMDB_ID
-          }
-        }
-      }
-    }).then(function(dbRelationLookUp){
-        console.log(dbRelationLookUp);
-      //+++++++++++++++++++
-      //IF IT DOESNT EXIST
-      //+++++++++++++++++++
-        db.user_show.create({
-          userID:req.params.userID,
-          showID:dbRelationLookUp.id,
-          relation:req.params.relation
-        }).then(function(relationCreate){
-          console.log(relationCreate);
-          res.redirect("/user/"+req.params.userID);
-        })
-    });
-  }
+  // app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
+  //   db.show.findOne({
+  //     where:{
+  //       userID : req.params.userID,
+  //       relation: req.params.relation
+  //     },
+  //     include:{
+  //       model:db.show{
+  //         where:{
+  //           OMDB_id: req.params.OMDB_ID
+  //         }
+  //       }
+  //     }
+  //   }).then(function(dbRelationLookUp){
+  //       console.log(dbRelationLookUp);
+  //     //+++++++++++++++++++
+  //     //IF IT DOESNT EXIST
+  //     //+++++++++++++++++++
+  //       db.user_show.create({
+  //         userID:req.params.userID,
+  //         showID:dbRelationLookUp.id,
+  //         relation:req.params.relation
+  //       }).then(function(relationCreate){
+  //         console.log(relationCreate);
+  //         res.redirect("/user/"+req.params.userID);
+  //       })
+  //   });
+  // }
 
   // app.delete("/api_relation/:userShowID", function(req, res) {
   //   //   db.Author.destroy({
