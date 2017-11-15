@@ -11,7 +11,6 @@ module.exports = function(app) {
       // pass the result of our call
           .then(function(dbUser) {
               // log the result to our terminal/bash window
-              console.log(dbUser);
               // redirect
               res.redirect("/");
           });
@@ -31,29 +30,11 @@ module.exports = function(app) {
     });  
   });
 
+//get the newest five of each category and GET to HdnlBars for User Homepage
   app.get("/user/:userid", function(req, res) {
     console.log("GET /user/userid");
-// <<<<<<< kk_main
-//     var userid = req.params.userid;
-//     var user;
-//     var favorites = [];
-//     var watchList = [];
 
-//     console.log("User Id Selected: " + userid);
-//     // Query database to find user and their favorite and watchlist shows
-//     db.user.findById(userid).then(function(dbUser){
-
-//       var user = {  
-//       user_id: userid,
-//       username: dbUser.username,
-//       favorite:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
-//       watchList:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
-//       }
-
-//       res.render("index", user);
-//     })
-
-    var currentID = req.params.userid
+    var currentID = req.params.userid;
     console.log("User Id Selected: " + currentID);
 
     db.user_show.findAll({
@@ -96,19 +77,43 @@ module.exports = function(app) {
             }
             //res.json(user);
             res.render("index", user);
-            console.log(user);
           })
         })
       })
   });
-}
-  // app.get("/api/user/:userid/:relation", function(req, res) {
-  //   var userid = {
-  //     favorite:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
-  //     watchList:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
-  //   }
-  //   res.render("relationship", userid);
-  // });
+
+  app.get("/rel/:userid/:relation", function(req, res) {
+    var currentID = req.params.userid;
+    var currentRelation = req.params.relation;
+    console.log("RELATION, User Id Selected: " +currentRelation+" "+ currentID);
+
+    db.user_show.findAll({
+      where:{
+        userId:currentID,
+        relation:currentRelation
+      },
+      //limit:5,
+      order:[
+        ['createdAt','DESC']
+      ],
+      include:{
+        model:db.show
+      }
+    }).then(function(dbOneRelation){
+      var relationArray = dbOneRelation;
+      db.user.findById(currentID)
+      .then(function(dbUser){
+        var user = {
+          user_id: currentID,
+          username: dbUser.username,
+          relation: currentRelation,
+          relationArray: relationArray
+        }
+        res.json(user);
+        //res.render("index", user);
+      })
+    })
+  });
 
   // app.get("/api/show/:Showid", function(req, res) {
   //     // json to return all shows or a specific one (devOps only)
@@ -156,18 +161,59 @@ module.exports = function(app) {
   //     //   }
   // });
 
-  // app.post("/api_search/:userID/:showID/:title/:imgURL", function(req, res) {
-  // // create show !=exists, create bridge entry/link
-  // //   {
-  // //     status
-  // //   } HndlBrs:index->refreshPage/get
-  // });
+//POST api info to DB to add new show if it doesn't exist
+  app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/?imgURL", function(req, res) {
+    db.show.findOne({
+      where:{
+        OMDB_id : req.params.OMDB_ID
+      }
+    }).then(function(dbOMDBLookUp){
+        console.log(dbOMDBLookUp);
+      //+++++++++++++++++++
+      //IF IT DOESNT EXIST
+      //+++++++++++++++++++
+      //if(dbOMDBLookUp.length==0){
+        db.show.create({
+          title:req.params.title,
+          OMDB_id:req.params.OMDB_ID,
+          imgURL:req.params.imgURL,
+          contentURL:"blank"
+        }).then(function(showCreate){
+          console.log(showCreate);
+          res.redirect("/user/"+req.params.userID);
+        })
+     // }
+    })
+  });
 
-  // app.post("/api_relation/:userID/:showID/:relation", function(req, res) {
-  //     // db.Author.create(req.body).then(function(dbAuthor) {
-  //     //   res.json(dbAuthor);
-  //     // });
-  // });
+  app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
+    db.show.findOne({
+      where:{
+        userID : req.params.userID,
+        relation: req.params.relation
+      },
+      include:{
+        model:db.show{
+          where:{
+            OMDB_id:req.params.OMDB_ID
+          }
+        }
+      }
+    }).then(function(dbRelationLookUp){
+        console.log(dbRelationLookUp);
+      //+++++++++++++++++++
+      //IF IT DOESNT EXIST
+      //+++++++++++++++++++
+        db.user_show.create({
+          userID:req.params.userID,
+          showID:dbRelationLookUp.id,
+          relation:req.params.relation
+        }).then(function(relationCreate){
+          console.log(relationCreate);
+          res.redirect("/user/"+req.params.userID);
+        })
+    });
+  }
 
   // app.delete("/api_relation/:userShowID", function(req, res) {
   //   //   db.Author.destroy({
@@ -180,4 +226,4 @@ module.exports = function(app) {
   //   // });
 
   // });
-// }
+}
