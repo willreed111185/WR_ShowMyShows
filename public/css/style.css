@@ -9,6 +9,9 @@ body {
     font-size: 40px;
 /*    text-shadow: 3px 3px rgba(5, 5, 5, 0.83)
 */}
+a {
+	text-decoration: none; 
+}
 i {
 	color: #d9d900;
 }
@@ -23,6 +26,9 @@ ul {
 
 footer {
 	text-align: center;
+	bottom: 0;
+}
+
 }
 
 .modal {
