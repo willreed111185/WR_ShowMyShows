@@ -34,7 +34,7 @@ CURRENT_TIMESTAMP
 (
 "Stranger Things",
 66732,
-"http://image.tmdb.org/t/p/w185/lXS60geme1LlEob5Wgvj3KilClA.jpg",
+"lXS60geme1LlEob5Wgvj3KilClA.jpg",
 "blank",
 CURRENT_TIMESTAMP,
 CURRENT_TIMESTAMP
