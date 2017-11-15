@@ -1,19 +1,38 @@
 var db = require("../models");
 
+var isUserUnique = function(username) {
+    return db.user.count({ where: { username: username } })
+      .then(count => {
+        if (count != 0) {
+          return false;
+        }
+        return true;
+    });
+};
+
 module.exports = function(app) {
 
   // Add a new user to the DB
   app.post("/api/user", function(req, res) {
-      db.user.create({
-          username: req.body.username,
-          password: req.body.password
-      })
-      // pass the result of our call
-          .then(function(dbUser) {
-              // log the result to our terminal/bash window
-              // redirect
-              res.redirect("/");
-          });
+
+    // Check if user already exists
+    isUserUnique(req.body.username).then(isUnique => {
+      if(isUnique){
+        db.user.create({
+            username: req.body.username,
+            password: req.body.password
+        })
+        // pass the result of our call
+            .then(function(dbUser) {
+                // log the result to our terminal/bash window
+                // redirect
+                res.redirect("/");
+            });
+      }
+      else {
+        console.log("User already exists");
+      }
+    })
   });
 
   // Show the login/user selection page
