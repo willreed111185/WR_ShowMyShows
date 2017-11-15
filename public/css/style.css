@@ -7,10 +7,28 @@ body {
 /*    color: white;*/
     font-family: 'Passion One', cursive;
     font-size: 40px;
-/*    text-shadow: 3px 3px rgba(5, 5, 5, 0.83)
-*/}
-a {
-	text-decoration: none; 
+    text-shadow: 3px 3px rgba(5, 5, 5, 0.83)
+}
+#showme {
+	-moz-transform: scale(-1, 1);
+	-webkit-transform: scale(-1, 1);
+	-o-transform: scale(-1, 1);
+	-ms-transform: scale(-1, 1);
+	transform: scale(-1, 1);
+}
+.titleCaption {
+  color: white;
+  font-size: 20px;
+  font-family: 'Passion One', cursive;
+  text-shadow: 3px 3px rgba(5, 5, 5, 0.83);
+}
+a:link {
+	color: white;
+	text-decoration: none;
+}
+a:hover {
+	color: #d9d900;
+	text-decoration: none;
 }
 i {
 	color: #d9d900;
@@ -26,11 +44,8 @@ ul {
 
 footer {
 	text-align: center;
-	bottom: 0;
 }
 
-}
-
-.modal {
+.modal-content {
 	color: black;
 }
