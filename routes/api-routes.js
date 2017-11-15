@@ -176,7 +176,7 @@ module.exports = function(app) {
         db.show.create({
           title:req.params.title,
           OMDB_id:req.params.OMDB_ID,
-          imgURL:req.params.imgURL,
+          imgURL:imgBaseUrl+req.params.imgURL,
           contentURL:"blank"
         }).then(function(showCreate){
           console.log(showCreate);
