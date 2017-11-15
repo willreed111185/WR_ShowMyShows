@@ -1,7 +1,9 @@
 <!-- Show's username here -->
-<h2 id="title" data-userId={{user_id}}>Hello {{username}}!!</h2>
+<div class="text-center">
+	<h2 id="title" data-userId={{user_id}}>Hello {{username}}!!</h2>
+</div>
 
-<p>Search and Manage your TV shows with this app.</p>
+<!-- <p>Search and Manage your TV shows with this app.</p> -->
 <form class="search-bar" id="search-form">
 
 	<div class="form-group">
@@ -16,8 +18,8 @@
 <div class="row fav_list justify-content-md">
 	<div class="col-md">
 		{{#each favorite}}
-			<div class="fav float-left">
-	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.OMDB_id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{show.title}}<br></a>
+			<div class="fav float-left text-center">
+	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.OMDB_id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br><p class="titleCaption">{{show.title}}</p><br></a>
 		  	</div>
 		{{/each}}
 	</div>
@@ -28,8 +30,8 @@
 <div class="row watchList justify-content-md">
 	<div class="col-md">
 		{{#each watchList}}
-			<div class="watch float-left">
-	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.OMDB_id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br>{{show.title}}<br></a>
+			<div class="watch float-left text-center">
+	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.OMDB_id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br><p class="titleCaption">{{show.title}}</p><br></a>
 		  	</div>
 		{{/each}}
 	</div>
@@ -59,8 +61,8 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" id="fave-btn" class="btn btn-primary add-btn" data-rel="favorite" data-userId={{user_id}} data-showId="0">Add to Favorites</button>
-        <button type="button" id="watch-btn" class="btn btn-primary add-btn" data-rel="watchList" data-userId={{user_id}} data-showId="0">Add to Watchlist</button>
+        <button type="button" id="fave-btn" class="btn btn-default add-btn" data-rel="favorite" data-userId={{user_id}} data-showId="0">Add to Favorites</button>
+        <button type="button" id="watch-btn" class="btn btn-default add-btn" data-rel="watchList" data-userId={{user_id}} data-showId="0">Add to Watchlist</button>
       </div>
 
     </div>
