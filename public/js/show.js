@@ -44,9 +44,17 @@ $("#search-form").submit(function(e){
 // Show modal on user search or selecting show from list
 $("#showModal").on("show.bs.modal", function(e) {
 
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var type = button.data('type') // Extract info from data-* attributes
+  var button = $(e.relatedTarget); // Button that triggered the modal
+  var type = button.attr('data-type');
+  var omdbId;
 
+  if (type == "item"){
+    omdbId = button.data('id');
+    console.log(omdbId);
+    queryShow(omdbId);
+  }
+
+  else{
     var showInput = $("#show-input").val().trim();
     console.log(showInput);
     $("#show-input").val("");
@@ -65,26 +73,34 @@ $("#showModal").on("show.bs.modal", function(e) {
         $("#show-input").removeAttr("style");
         $("#show-input").attr("placeholder", "Search");
         
-
-        queryShow(response.results[0].id);
+        omdbId = response.results[0].id;
+        queryShow(omdbId);
       }
     });
+  }
 })
 
 // Create user_show item in db
-$("#add-btn").on("click", function(e){
+$(".add-btn").on("click", function(e){
 
   // Extract info from data-* attributes of button
-  var button = $(e.relatedTarget);
-  var user = button.data('userId'); 
-  var show = button.data('showId');
+ // var button = $(e.relatedTarget); // Button that triggered the modal
+  var userId = $(".add-btn").attr('data-userid');
+  var show = $(".add-btn").attr('data-showid');
+  var title = $("#ShowTitle").text();
+  var imgUrl = $("#modImage").attr("src");
+  var relation = $(".add-btn").attr('data-rel');
 
-  console.log(user + " " + show);
+  console.log("title: " + title);
+  console.log("UserId: " + userId);
+  console.log("Show: " + show);
+  console.log("url: " +imgUrl);
+  console.log("relation " + relation);
 });
 
 // Get individual show details to update modal
 function queryShow(showID){
-  console.log("queryShow");
+  console.log("queryShow " +showID);
   // Performing GET requests to the the movie database API
   $.ajax({
     url: API_ROOT_URL + "tv/" + showID + "?api_key=" + API_KEY + "&language=en-US",
