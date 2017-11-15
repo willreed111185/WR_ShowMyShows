@@ -17,24 +17,6 @@ $.ajax({
 
 });
 
-// $(document).on("click", "#showModal", 'show.bs.modal', function (event) {
-
-//   // var button = $(event.relatedTarget) // Button that triggered the modal
-//   // var recipient = button.data('whatever') // Extract info from data-* attributes
-
-//   // // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-//   // // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-//   // var modal = $(this)
-//   // modal.find('.modal-title').text('New message to ' + recipient)
-//   // modal.find('.modal-body input').val(recipient)
-
-//   // // old code to query show data
-//   // console.log("TV Show ID: " + $(this).attr("dataid"));
-//   // // Call function to query API for the specific show
-//   // queryShow($(this).attr("dataid"));
-
-// })
-
 // Event handler for user search
 $("#search-form").submit(function(e){
   e.preventDefault();
@@ -85,17 +67,28 @@ $(".add-btn").on("click", function(e){
 
   // Extract info from data-* attributes of button
  // var button = $(e.relatedTarget); // Button that triggered the modal
-  var userId = $(".add-btn").attr('data-userid');
-  var show = $(".add-btn").attr('data-showid');
+  var userID = $(".add-btn").attr('data-userid');
+  var OMDB_ID = $(".add-btn").attr('data-showid');
   var title = $("#ShowTitle").text();
-  var imgUrl = $("#modImage").attr("src");
+  var imgURL = $("#modImage").attr("src");
+  var imgSplit = imgURL.split("w185/");
+  imgSplit = imgSplit[1];
   var relation = $(".add-btn").attr('data-rel');
 
-  console.log("title: " + title);
-  console.log("UserId: " + userId);
-  console.log("Show: " + show);
-  console.log("url: " +imgUrl);
-  console.log("relation " + relation);
+  // console.log("title: " + title);
+  // console.log("UserId: " + userID);
+  // console.log("Show: " + OMDB_ID);
+  // console.log("url: " +imgURL);
+  // console.log("image split: "+ imgSplit);
+  // console.log("relation " + relation);
+// http://image.tmdb.org/t/p/w185/mWNadwBZIx8NyEw4smGftYtHHrE.jpg
+  $.ajax({
+    url: "/api_ShowLookup/"+userID+"/"+OMDB_ID+"/"+title+"/"+imgSplit,
+    method: "POST"
+  }).done(function(response){
+    console.log("show added to db");
+    location.reload();
+  })
 });
 
 // Get individual show details to update modal
@@ -111,7 +104,7 @@ function queryShow(showID){
     $("#ShowTitle").html(response.name);
     $("#time").html(response.last_air_date);
     $("#plot").html(response.overview);
-    $("#modImage").attr("src", "http://image.tmdb.org/t/p/w185"+response.poster_path);
+    $("#modImage").attr("src", imgBaseUrl+response.poster_path);
     $(".add-btn").attr("data-showId", showID);
 //    $("#watch-btn").attr("data-showId", showID);
   }); 
