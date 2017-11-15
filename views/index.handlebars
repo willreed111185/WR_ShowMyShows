@@ -12,7 +12,7 @@
 </form>
 
 <!-- Pass in first 5 favorites data form server.js -->
-<a href="/rel/user/{{user_id}}/favorite"><h3>Favorites: </h3></a><br>
+<a href="/rel/{{user_id}}/favorite"><h3>Favorites: </h3></a><br>
 <div class="row fav_list justify-content-md">
 	<div class="col-md">
 		{{#each favorite}}
@@ -24,7 +24,7 @@
 </div>
 
 <!-- Pass in first 5 watchList data form server.js -->
-<a href="/rel/user/{{user_id}}/watchList"><h3>Watch List: </h3></a><br>
+<a href="/rel/{{user_id}}/watchList"><h3>Watch List: </h3></a><br>
 <div class="row watchList justify-content-md">
 	<div class="col-md">
 		{{#each watchList}}
@@ -60,7 +60,7 @@
 
       <div class="modal-footer">
         <button type="button" id="fave-btn" class="btn btn-primary add-btn" data-rel="favorite" data-userId={{user_id}} data-showId="0">Add to Favorites</button>
-        <button type="button" id="watch-btn" class="btn btn-primary add-btn" data-rel="watchlist" data-userId={{user_id}} data-showId="0">Add to Watchlist</button>
+        <button type="button" id="watch-btn" class="btn btn-primary add-btn" data-rel="watchList" data-userId={{user_id}} data-showId="0">Add to Watchlist</button>
       </div>
 
     </div>
