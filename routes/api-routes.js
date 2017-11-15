@@ -33,39 +33,73 @@ module.exports = function(app) {
 
   app.get("/user/:userid", function(req, res) {
     console.log("GET /user/userid");
-    var userid = req.params.userid;
-    var user;
-    var favorites = [];
-    var watchList = [];
+// <<<<<<< kk_main
+//     var userid = req.params.userid;
+//     var user;
+//     var favorites = [];
+//     var watchList = [];
 
-    console.log("User Id Selected: " + userid);
-    // Query database to find user and their favorite and watchlist shows
-    db.user.findById(userid).then(function(dbUser){
+//     console.log("User Id Selected: " + userid);
+//     // Query database to find user and their favorite and watchlist shows
+//     db.user.findById(userid).then(function(dbUser){
 
-      var user = {  
-      user_id: userid,
-      username: dbUser.username,
-      favorite:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
-      watchList:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
+//       var user = {  
+//       user_id: userid,
+//       username: dbUser.username,
+//       favorite:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
+//       watchList:[{showID:"showID", imgURL:"http://via.placeholder.com/150x200", title:"title"}, {showID:"showID2", imgURL:"http://via.placeholder.com/150x200", title:"title2"}, {showID:"showID3", imgURL:"http://via.placeholder.com/150x200", title:"title3"}, {showID:"showID4", imgURL:"http://via.placeholder.com/150x200", title:"title4"}, {showID:"showID5", imgURL:"http://via.placeholder.com/150x200", title:"title5"}],
+//       }
+
+//       res.render("index", user);
+//     })
+
+    var currentID = req.params.userid
+    console.log("User Id Selected: " + currentID);
+
+    db.user_show.findAll({
+      where:{
+        userId:currentID,
+        relation:"favorite"
+      },
+      limit:5,
+      order:[
+        ['createdAt','DESC']
+      ],
+      include:{
+        model:db.show
       }
+    }).then(function(dbUserFav){
+      var favoritesArray = dbUserFav;
 
-      res.render("index", user);
-    })
+        db.user_show.findAll({
+          where:{
+            userId:currentID,
+            relation:"watchList"
+            },
+            limit:5,
+            order:[
+              ['createdAt','DESC']
+            ],
+            include:{
+              model:db.show
+            }
+        }).then(function(dbUserWatch){
+          var watchlistArray = dbUserWatch;
 
-    // db.user_show.findAll({
-    //   where:{
-    //     userId:req.params.userid
-    //   },
-    //   include:{
-    //     model:db.show
-    //   }
-    // }).then(function(dbUserShow){
-    //   for(var i=0;i<dbUserShow.length;i++){
-    //     console.log(dbUserShow[i].dataValues)
-    //   }
-        // }
-        //res.render("index", user);
-    //  })
+          db.user.findById(currentID)
+          .then(function(dbUser){
+            var user = {
+              user_id: currentID,
+              username: dbUser.username,
+              favorite: favoritesArray,
+              watchList: watchlistArray
+            }
+            //res.json(user);
+            res.render("index", user);
+            console.log(user);
+          })
+        })
+      })
   });
 }
   // app.get("/api/user/:userid/:relation", function(req, res) {
