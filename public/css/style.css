@@ -3,7 +3,9 @@ body {
 */  background-image: url(/img/blackdenim.png);
 	color: white;
 }
+
 .navbar, .modal-title, h1, h2, h3, h5{
+
     font-family: 'Passion One', cursive;
     font-size: 40px;
     text-shadow: 3px 3px rgba(5, 5, 5, 0.83)
@@ -20,6 +22,7 @@ form {
 }
 .form-inline .form-control{
 	width: 325px;
+
 }
 #showme {
 	-moz-transform: scale(-1, 1);
