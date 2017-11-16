@@ -31,6 +31,7 @@ module.exports = function(app) {
       }
       else {
         console.log("User already exists");
+        res.status(400).send('Username already exists!');
       }
     })
   });
