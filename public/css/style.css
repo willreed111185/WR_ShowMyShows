@@ -3,11 +3,18 @@ body {
 */  background-image: url(/img/blackdenim.png);
 	color: white;
 }
-.navbar {
-/*    color: white;*/
+.navbar, .modal-title, h2, h3, h5{
     font-family: 'Passion One', cursive;
     font-size: 40px;
     text-shadow: 3px 3px rgba(5, 5, 5, 0.83)
+}
+.navbar {
+	-webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+}
+form {
+	margin-bottom: 50px;
 }
 #showme {
 	-moz-transform: scale(-1, 1);
@@ -15,6 +22,14 @@ body {
 	-o-transform: scale(-1, 1);
 	-ms-transform: scale(-1, 1);
 	transform: scale(-1, 1);
+}
+.img-thumbnail {
+  background-position: 20px 20px;
+  background-color: rgba(5, 5, 5, 0.83);
+  box-shadow: 5px 5px 3px rgba(5, 5, 5, 0.83);
+  border: none;
+  height: 325px;
+  margin-right: 20px;
 }
 .titleCaption {
   color: white;
@@ -47,5 +62,12 @@ footer {
 }
 
 .modal-content {
-	color: black;
+	background-color: #151212; 
+	color: white;
+}
+#modImage {
+  box-shadow: 5px 5px 3px rgba(5, 5, 5, 0.83)
+}
+.close{
+	color: white;
 }
