@@ -66,35 +66,36 @@ $("#showModal").on("show.bs.modal", function(e) {
 $(".add-btn").on("click", function(e){
 
   // Extract info from data-* attributes of button
- // var button = $(e.relatedTarget); // Button that triggered the modal
-  var userID = $(".add-btn").attr('data-userid');
-  var OMDB_ID = $(".add-btn").attr('data-showid');
+  var button = $(e.currentTarget); // Button that triggered the modal
+  console.log(button);
+   var userID = button.data('userid');
+  var OMDB_ID = button.data('showid');
   var title = $("#ShowTitle").text();
   var imgURL = $("#modImage").attr("src");
-  var imgSplit = imgURL.split("w185/");
-  imgSplit = imgSplit[1];
-  var relation = $(".add-btn").attr('data-rel');
+  var imgSplit = imgURL.split("w185/")[1];
+   var relation = button.data('rel');
 
-  // console.log("title: " + title);
-  // console.log("UserId: " + userID);
-  // console.log("Show: " + OMDB_ID);
-  // console.log("url: " +imgURL);
-  // console.log("image split: "+ imgSplit);
-  // console.log("relation " + relation);
-// http://image.tmdb.org/t/p/w185/mWNadwBZIx8NyEw4smGftYtHHrE.jpg
+  console.log("title: " + title);
+  console.log("UserId: " + userID);
+  console.log("Show: " + OMDB_ID);
+  console.log("url: " +imgURL);
+  console.log("image split: "+ imgSplit);
+  console.log("relation " + relation);
+
   $.ajax({
     url: "/api_ShowLookup/"+userID+"/"+OMDB_ID+"/"+title+"/"+imgSplit,
     method: "POST"
   }).done(function(response){
-    console.log("show added to db");
-    $.ajax({
-      url: "api_relation/"+userID+"/"+OMDB_ID+"/"+relation,
-      method: "POST"
-    }).done(function(){
-      console.log("user_show bridge created");
-      location.reload();
-    })
-    
+      console.log("show lookup complete");
+      console.log("response: " + response);
+      $.ajax({
+        url: "/api_relation/"+userID+"/"+OMDB_ID+"/"+relation,
+        method: "POST"
+      }).done(function(bridgeResponse){
+          console.log("user_show bridge created");
+          console.log("response: " + bridgeResponse);
+          location.reload();
+      })
   })
 });
 
