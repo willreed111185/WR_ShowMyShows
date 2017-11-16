@@ -112,6 +112,7 @@ module.exports = function(app) {
       })
   });
 
+  // Display all shows in the relation for user
   app.get("/rel/:userid/:relation", function(req, res) {
 
     var currentID = req.params.userid;
@@ -145,6 +146,71 @@ module.exports = function(app) {
       })
     })
   });
+
+
+ //POST api info to DB to add new show if it doesn't exist
+  app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/:imgURL", function(req, res) {
+    var imgBaseUrl = "http://image.tmdb.org/t/p/w185/";
+
+    isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
+      if(isUnique){
+        console.log("SHOW IS UNIQUE : TRUE");
+        db.show.create({
+          title:req.params.title,
+          OMDB_id:req.params.OMDB_ID,
+          imgURL:imgBaseUrl+req.params.imgURL,
+          contentURL:"blank"
+        }).then(function(showCreate){
+          console.log(showCreate);
+          res.send(true);
+ //         res.redirect("/user/"+req.params.userID);
+        });
+      } else {
+        console.log("SHOW IS UNIQUE : FALSE");
+        res.send(false);
+      }
+    });
+  });
+
+  app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
+    //search for show_id by OMDBid in shows, then.... 
+    console.log("RELATIONSHIP CHECK");
+    db.show.findOne({
+      where:{
+        OMBD_id:req.params.OMDB_ID
+      }
+    }).then(function(dbShowIDLookUp){
+      var currentShowID = dbShowIDLookUp.id;
+      console.log("currentShowID: " + currentShowID);
+      db.show.count({
+        where:{
+          userID : req.params.userID,
+          relation: req.params.relation,
+          showID: currentShowID
+        } 
+      }).then(function(count){
+        console.log("RELATIONSHIP COUNT: " + count);
+        isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
+          if(isUnique){
+            console.log("RELATION IS UNIQUE : TRUE")
+            db.user_show.create({
+              userID:req.params.userID,
+              showID:dbRelationLookUp.id,
+              relation:req.params.relation
+            }).then(function(relationCreate){
+              console.log("CREATED RELATION");
+              res.send(true);
+//              res.redirect("/user/"+req.params.userID);
+            });
+          }else {
+            console.log("RELATION IS UNIQUE : FALSE");
+            res.send(false);
+          }
+        });
+      });
+    });
+  });
+
 
   // app.get("/api/show/:Showid", function(req, res) {
   //     // json to return all shows or a specific one (devOps only)
@@ -191,66 +257,6 @@ module.exports = function(app) {
   //     //     relationship:[array of relationshipObj{showID, imgURL, title}]
   //     //   }
   // });
-
- //POST api info to DB to add new show if it doesn't exist
-  app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/:imgURL", function(req, res) {
-    var imgBaseUrl = "http://image.tmdb.org/t/p/w185/";
-
-    isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
-      if(isUnique){
-        console.log("IS UNIQUE : TRUE");
-        db.show.create({
-          title:req.params.title,
-          OMDB_id:req.params.OMDB_ID,
-          imgURL:imgBaseUrl+req.params.imgURL,
-          contentURL:"blank"
-        }).then(function(showCreate){
-          console.log(showCreate);
-          res.redirect("/user/"+req.params.userID);
-        });
-      }else {
-      console.log("IS UNIQUE : FALSE");
-      }
-    });
-  });
-
-  app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
-    //search for show_id by OMDBid in shows, then.... 
-    console.log("RELATIONSHIP CHECK");
-    db.show.findOne({
-      where:{
-        OMBD_id:req.params.OMDB_ID
-      }
-    }).then(function(dbShowIDLookUp){
-      var currentShowID = dbShowIDLookUp.id;
-      console.log("currentShowID: ",currentShowID);
-      db.show.count({
-        where:{
-          userID : req.params.userID,
-          relation: req.params.relation,
-          showID: currentShowID
-        } 
-      }).then(function(count){
-        console.log("RELATIONSHIP COUNT: ",count);
-        isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
-          if(isUnique){
-            console.log("RELATION IS UNIQUE : TRUE")
-            db.user_show.create({
-              userID:req.params.userID,
-              showID:dbRelationLookUp.id,
-              relation:req.params.relation
-            }).then(function(relationCreate){
-              console.log("CREATED RELATION");
-              res.redirect("/user/"+req.params.userID);
-            });
-          }else {
-            console.log("RELATION IS UNIQUE : FALSE");
-          }
-        });
-      });
-    });
-  });
-
   // app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
   //   db.show.findOne({
   //     where:{
