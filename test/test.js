@@ -1,5 +1,4 @@
 var Nightmare = require("nightmare"); 
-var expect = require("chai").expect;
 
 new Nightmare({ show: true })
   // Visit login page
