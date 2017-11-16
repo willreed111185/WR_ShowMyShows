@@ -1,21 +1,31 @@
-// // add button click function for users
-// $(document)
-// 	.on("click", ".user-login", function(event) {
-// 	    var id = $(this).data("id");
-// 	    console.log("clicked user id: " + id);
+// // Function to check whether user exists or not
+// var isUserUnique = function(username) {
+//     return db.user.count({ where: { username: username } })
+//       .then(count => {
+//         if (count != 0) {
+//           return false;
+//         }
+//         return true;
+//     });
+// };
 
-// 		// $.ajax({
-// 		//     method: "GET",
-// 		//     url: "/user/"+id,
-// 		// })
-// 		//     .done(function (user) {
-// 		//        console.log(user);
-// 		//        // TODO: append to index
+// module.exports = isUserUnique;
 
-// 		//        // for (ctr = 0; ctr < agents.length; ctr++ ) {
-// 		//        //     $("#agent-list").append(ctr + ": ");
-// 		//        //     $("#agent-list").append(agents[ctr].name);
-// 		//        //     $("#agent-list").append("<br>");
-// 		//        //}
-// 		//     });
+
+// $("#add-user").on("click", function(e){
+// 	e.preventDefault();
+// 	var username = $("#username").val().trim();
+// 	isUserUnique(username).then(isUnique => {
+
+// 	    if (isUnique) {
+// 	    	$.post("/api/user")
+// 	    	  .done(function(response){
+// 			 	console.log("User added to DB");
+// 		    })
+// 	      }
+// 	      else {
+// 	        console.log("User already exists. Cannot add user.");
+// 	      }
 // 	});
+// });
+
