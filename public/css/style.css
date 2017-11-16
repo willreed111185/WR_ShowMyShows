@@ -3,7 +3,7 @@ body {
 */  background-image: url(/img/blackdenim.png);
 	color: white;
 }
-.navbar, .modal-title, h2, h3, h5{
+.navbar, .modal-title, h1, h2, h3, h5{
     font-family: 'Passion One', cursive;
     font-size: 40px;
     text-shadow: 3px 3px rgba(5, 5, 5, 0.83)
@@ -14,7 +14,12 @@ body {
     box-shadow: 0 8px 6px -6px black;
 }
 form {
-	margin-bottom: 50px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	float: right;
+}
+.form-inline .form-control{
+	width: 325px;
 }
 #showme {
 	-moz-transform: scale(-1, 1);
@@ -28,7 +33,7 @@ form {
   background-color: rgba(5, 5, 5, 0.83);
   box-shadow: 5px 5px 3px rgba(5, 5, 5, 0.83);
   border: none;
-  height: 325px;
+  height: 295px;
   margin-right: 20px;
 }
 .titleCaption {
@@ -47,8 +52,11 @@ a:hover {
 }
 i {
 	color: #d9d900;
+	font-size: 100px;
 }
-
+.fa-home:before {
+	font-size: 50px;
+}
 ul {
 	list-style: none;
 }

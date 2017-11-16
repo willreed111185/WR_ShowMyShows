@@ -1,17 +1,23 @@
-<!-- Show's username here -->
-<div class="text-center">
-	<h2 id="title" data-userId={{user_id}}>Hello {{username}}!!</h2>
-</div>
+
 
 <!-- <p>Search and Manage your TV shows with this app.</p> -->
-<form class="search-bar" id="search-form">
-
+<div class="row">
+<div class="col-md-12">
+<form class="search-bar form-inline" id="search-form">
 	<div class="form-group">
 	  <input type="text" class="form-control" placeholder="Find a show" id="show-input">
 	</div>
 	<button type="button" class="btn btn-default" data-type="search" data-toggle="modal" data-target="#showModal">Search</button>
-
 </form>
+</div>
+</div>
+
+<!-- Show's username here -->
+<div class="row text-center">
+	<div class="col-md">
+	<h1 class="text-center" id="title" data-userId={{user_id}}>Hello {{username}}!!</h1>
+	</div>
+</div>
 
 <!-- Pass in first 5 favorites data form server.js -->
 <a href="/rel/{{user_id}}/favorite"><h3 class="titlecaption">Favorites: </h3></a><br>
