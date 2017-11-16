@@ -214,7 +214,7 @@ module.exports = function(app) {
       where:{
         userID : req.params.userID,
         relation: req.params.relation
-        showID: //local var
+       // showID: //local var
       } 
     }).then(function(dbRelationLookUp){
         console.log(dbRelationLookUp);
