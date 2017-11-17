@@ -1,20 +1,17 @@
 const API_KEY = "aa07ce021371088334d6308641c7a59f";
 const API_ROOT_URL = "https://api.themoviedb.org/3/";
 
-// stores the base url for images
+// Configuration for image url from the movie database
 let imgBaseUrl;
-// Configuration request to get base url for images and initialize
 $.ajax({
   url: API_ROOT_URL + "configuration?api_key=" + API_KEY,
   method: "GET"
-}).done(function(response) {
-  console.log("Configuration API");
-
-   // Set variable from API values
-  let baseUrl = response.images.base_url;
-  let size = response.images.poster_sizes[2];
-  imgBaseUrl = baseUrl + size;
-
+})
+  .done(function(response) {
+    // Set variable from API values
+    let baseUrl = response.images.base_url;
+    let size = response.images.poster_sizes[2];
+    imgBaseUrl = baseUrl + size;
 });
 
 // Event handler for user search
@@ -33,7 +30,7 @@ $("#search-form").submit(function(e){
     method: "GET"
   }).done(function(response) {
 
-    // Alert user that could not find the show
+    // Alert user show not found
     if (response.results.length == 0){
       $("#show-input").attr("style", "border-color: red; border-width: 1.3px");
       $("#show-input").val("");
@@ -70,33 +67,21 @@ $(".add-btn").on("click", function(e){
 
   // Extract info from data-* attributes of button
   var button = $(e.currentTarget); // Button that triggered the modal
-  console.log(button);
-   var userID = button.data('userid');
+  var userID = button.data('userid');
   var OMDB_ID = button.data('showid');
   var title = $("#ShowTitle").text();
   var imgURL = $("#modImage").attr("src");
   var imgSplit = imgURL.split("w185/")[1];
-   var relation = button.data('rel');
-
-  console.log("title: " + title);
-  console.log("UserId: " + userID);
-  console.log("Show: " + OMDB_ID);
-  console.log("url: " +imgURL);
-  console.log("image split: "+ imgSplit);
-  console.log("relation " + relation);
+  var relation = button.data('rel');
 
   $.ajax({
     url: "/api_ShowLookup/"+userID+"/"+OMDB_ID+"/"+title+"/"+imgSplit,
     method: "POST"
   }).done(function(response){
-      console.log("show lookup complete");
-      console.log("response: " + response);
       $.ajax({
         url: "/api_relation/"+userID+"/"+OMDB_ID+"/"+relation,
         method: "POST"
       }).done(function(bridgeResponse){
-          console.log("user_show bridge created");
-          console.log("response: " + bridgeResponse);
           location.reload();
       })
   })
@@ -121,10 +106,4 @@ function queryShow(showID){
   }); 
 }
 
-// // Event handler when user clicks on an item in the carousel
-// $(document).on("click", ".show", function(){
-//   console.log("TV Show ID: " + $(this).attr("dataID"));
-//   // Call function to query API for the specific show
-//   queryShow($(this).attr("dataID"));
-// })
-
+// Delete user_show relationship
