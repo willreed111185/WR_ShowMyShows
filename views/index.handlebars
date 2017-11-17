@@ -1,6 +1,9 @@
 <!-- <p>Search and Manage your TV shows with this app.</p> -->
 <div class="row">
-<div class="col-md-12">
+<div class="col-md-6">
+	<h1 class="text-center" id="title" data-userId={{user_id}}>Hello {{username}}!!</h1>
+	</div>
+<div class="col-md-6">
 <form class="search-bar form-inline" id="search-form">
 	<div class="form-group">
 	  <input type="text" class="form-control" placeholder="Find a show" id="show-input">
@@ -8,13 +11,6 @@
 	<button type="button" class="btn btn-default" data-type="search" data-toggle="modal" data-target="#showModal">Search</button>
 </form>
 </div>
-</div>
-
-<!-- Show's username here -->
-<div class="row text-center">
-	<div class="col-md">
-	<h1 class="text-center" id="title" data-userId={{user_id}}>Hello {{username}}!!</h1>
-	</div>
 </div>
 
 <!-- Pass in first 5 favorites data form server.js -->
@@ -56,11 +52,6 @@
 
       </div>
 
-      <div style="position:relative; padding-bottom:56.25%; overflow:hidden;"><iframe src="https://content.jwplatform.com/players/V7gKg9PI-UbMgy82L.html" width="100%" height="100%" frameborder="0" scrolling="auto" allowfullscreen style="position:absolute;"></iframe></div>
-
-
- 
-
       <div class="modal-body" id="modalTextBox">
         <div class="text-center"><img id="modImage"></div>
 		<h5 class="modalInfo">Last Aired</h5>
@@ -68,6 +59,8 @@
 	    <h5 class="modalInfo">Plot</h5>
 	    <p id="plot"></p>
       </div>
+
+      <div style="position:relative; padding-bottom:56.25%; overflow:hidden;"><iframe src="https://content.jwplatform.com/players/V7gKg9PI-UbMgy82L.html" width="100%" height="100%" frameborder="0" scrolling="auto" allowfullscreen style="position:absolute;"></iframe></div>
 
       <div class="modal-footer">
         <button type="button" id="fave-btn" class="btn btn-default add-btn" data-rel="favorite" data-userId={{user_id}} data-showId="0">Add to Favorites</button>
