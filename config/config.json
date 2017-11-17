@@ -8,12 +8,7 @@
     "dialect": "mysql"
   },
   "production": {
-    "use_env_variable": "JAWSDB_URL"
-    // "username": "noulblxhpzk4qhsr",
-    // "password": "dtlbrrhl95thzl3s",
-    // "database": "z4cvfpe50y3rwzbo",
-    // "host": "kavfu5f7pido12mr.cbetxkdyhwsb.us-east-1.rds.amazonaws.com  ",
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql",
-    // "use_env_variable": "mysql://noulblxhpzk4qhsr:dtlbrrhl95thzl3s@kavfu5f7pido12mr.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/z4cvfpe50y3rwzbo"
   }
 }
