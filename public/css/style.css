@@ -4,7 +4,7 @@ body {
 	color: white;
 }
 
-.navbar, .modal-title, h1, h2, h3, h5{
+.navbar, .modal-title, h1, h2, h3, h5, h6{
 
     font-family: 'Passion One', cursive;
     font-size: 40px;
@@ -15,6 +15,9 @@ h1 {
 }
 h2 {
 	font-size: 30px;
+}
+h6 {
+	font-size: 20px;
 }
 #title {
 	float: left;
@@ -37,8 +40,8 @@ form, .homebtn {
 }
 .form-inline .form-control{
 	width: 325px;
-
 }
+
 #showme {
 	-moz-transform: scale(-1, 1);
 	-webkit-transform: scale(-1, 1);
