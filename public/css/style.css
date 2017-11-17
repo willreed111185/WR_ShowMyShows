@@ -10,14 +10,29 @@ body {
     font-size: 40px;
     text-shadow: 3px 3px rgba(5, 5, 5, 0.83)
 }
+h1 {
+	font-size: 50px;
+}
+h2 {
+	font-size: 30px;
+}
+#title {
+	float: left;
+	margin-top: 20px;
+}
+.relTitle{
+	float: left;
+	margin-top: 30px;
+}
+
 .navbar {
 	-webkit-box-shadow: 0 8px 6px -6px black;
     -moz-box-shadow: 0 8px 6px -6px black;
     box-shadow: 0 8px 6px -6px black;
 }
-form {
-	margin-top: 10px;
-	margin-bottom: 30px;
+form, .homebtn {
+	margin-top: 30px;
+	margin-bottom: 35px;
 	float: right;
 }
 .form-inline .form-control{
