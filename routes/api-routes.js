@@ -26,23 +26,25 @@ module.exports = function(app) {
   // Add a new user to the DB
   app.post("/api/user", function(req, res) {
     // Check if user already exists
-    isItemUnique("username",req.body.username,db.user).then(isUnique => {
-      if(isUnique){
-        db.user.create({
-            username: req.body.username,
-            password: req.body.password
-        })
-        // pass the result of our call
-            .then(function(dbUser) {
-                // log the result to our terminal/bash window
-                // redirect
-                res.redirect("/");
-            });
+    db.user.findOrCreate({
+      where: {
+        username: req.body.username
+      },
+      defaults: {
+        username: req.body.username,
+        password: req.body.password
       }
-      else {
-        console.log("User already exists");
-        res.status(400).send('Username already exists!');
-      }
+    }).spread((user, created) => {
+        plain:true
+
+        if(created){
+          console.log("USER ADDED TO DATABASE");
+          res.redirect("/");     
+        }
+        else {
+          console.log("USER ALREADY IN DATABASE");
+          res.status(400).send('Username already exists!');
+        }
     })
   });
 
