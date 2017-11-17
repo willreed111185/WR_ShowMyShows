@@ -150,7 +150,7 @@ module.exports = function(app) {
 
  //POST api info to DB to add new show if it doesn't exist
   app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/:imgURL", function(req, res) {
-    var imgBaseUrl = "http://image.tmdb.org/t/p/w185/";
+    var imgBaseUrl = "https://image.tmdb.org/t/p/w185/";
     isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
       if(isUnique){
         console.log("SHOW IS UNIQUE : TRUE");
