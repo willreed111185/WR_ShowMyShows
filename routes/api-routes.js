@@ -1,5 +1,4 @@
 var db = require("../models");
-//"OMDB_id",req.body.OMDB_ID,db.show
 var isItemUnique = function(queryColumn,queryItem,queryTable) {
   if (queryColumn=="username"){
     return queryTable.count({ where: {username : queryItem } })
@@ -11,12 +10,13 @@ var isItemUnique = function(queryColumn,queryItem,queryTable) {
     });
   }
   if (queryColumn=="OMDB_id"){
-    return queryTable.count({ where: {OMDB_id : queryItem } })
+    return db.show.count({ where: {OMDB_id : queryItem } })
       .then(count => {
+        console.log("COUNT COUNT COUNT: ",count);
         if (count != 0) {
           return false;
         }
-        return true;
+       return true;
     });
   }
 };
@@ -151,7 +151,6 @@ module.exports = function(app) {
  //POST api info to DB to add new show if it doesn't exist
   app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/:imgURL", function(req, res) {
     var imgBaseUrl = "http://image.tmdb.org/t/p/w185/";
-
     isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
       if(isUnique){
         console.log("SHOW IS UNIQUE : TRUE");
@@ -163,7 +162,7 @@ module.exports = function(app) {
         }).then(function(showCreate){
           console.log(showCreate);
           res.send(true);
- //         res.redirect("/user/"+req.params.userID);
+          res.redirect("/user/"+req.params.userID);
         });
       } else {
         console.log("SHOW IS UNIQUE : FALSE");
@@ -177,12 +176,14 @@ module.exports = function(app) {
     console.log("RELATIONSHIP CHECK");
     db.show.findOne({
       where:{
-        OMBD_id:req.params.OMDB_ID
+        OMDB_id:req.params.OMDB_ID
       }
     }).then(function(dbShowIDLookUp){
       var currentShowID = dbShowIDLookUp.id;
       console.log("currentShowID: " + currentShowID);
-      db.show.count({
+      console.log("userID: " + req.params.userID);
+      console.log("relation: " + req.params.relation);
+      db.user_show.count({
         where:{
           userID : req.params.userID,
           relation: req.params.relation,
@@ -190,24 +191,26 @@ module.exports = function(app) {
         } 
       }).then(function(count){
         console.log("RELATIONSHIP COUNT: " + count);
-        isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
-          if(isUnique){
+          if (count == 0){
             console.log("RELATION IS UNIQUE : TRUE")
             db.user_show.create({
               userID:req.params.userID,
-              showID:dbRelationLookUp.id,
+              showID:dbShowIDLookUp.id,
               relation:req.params.relation
             }).then(function(relationCreate){
               console.log("CREATED RELATION");
-              res.send(true);
-//              res.redirect("/user/"+req.params.userID);
+              relationCreate.userId = req.params.userID;
+              relationCreate.showId = currentShowID;
+              relationCreate.save({fields: ['userId','showId']}).then(() => {
+                  res.send(true);
+                })
+              //res.send(true);
             });
-          }else {
+          }else{
             console.log("RELATION IS UNIQUE : FALSE");
             res.send(false);
           }
         });
-      });
     });
   });
 
