@@ -158,7 +158,7 @@ module.exports = function(app) {
           title:req.params.title,
           OMDB_id:req.params.OMDB_ID,
           imgURL:imgBaseUrl+req.params.imgURL,
-          contentURL:"blank"
+          contentURL:"https://content.jwplatform.com/players/V7gKg9PI-UbMgy82L.html"
         }).then(function(showCreate){
           console.log(showCreate);
           res.send(true);
