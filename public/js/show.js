@@ -18,47 +18,50 @@ $.ajax({
 });
 
 // Event handler for user search
+$("#search-btn").click(function(){
+  $("#search-form").submit();
+});
+
 $("#search-form").submit(function(e){
   e.preventDefault();
-  $('#showModal').modal('show');
+  var showInput = $("#show-input").val().trim();
+  console.log(showInput);
+
+  // Performing GET requests to the the movie database API
+  $.ajax({
+    url: API_ROOT_URL+"search/tv?api_key="+API_KEY+"&language=en-US&query="+showInput+"&page=1",
+    method: "GET"
+  }).done(function(response) {
+
+    // Alert user that could not find the show
+    if (response.results.length == 0){
+      $("#show-input").attr("style", "border-color: red; border-width: 1.3px");
+      $("#show-input").val("");
+      $("#show-input").attr("placeholder", "Show not found");
+    }
+
+    else{
+      omdbId = response.results[0].id;
+      queryShow(omdbId);
+      $('#showModal').modal('show');
+    }
+  });
 })
 
-// Show modal on user search or selecting show from list
+// Show modal on user search or when selecting a show from list
 $("#showModal").on("show.bs.modal", function(e) {
 
   var button = $(e.relatedTarget); // Button that triggered the modal
   var type = button.attr('data-type');
   var omdbId;
+  $("#show-input").val("");
+  $("#show-input").removeAttr("style");
+  $("#show-input").attr("placeholder", "Search");
 
+  // User clicked on show from their list.
   if (type == "item"){
     omdbId = button.data('id');
-    console.log(omdbId);
     queryShow(omdbId);
-  }
-
-  else{
-    var showInput = $("#show-input").val().trim();
-    console.log(showInput);
-    $("#show-input").val("");
-
-    // Performing GET requests to the the movie database API
-    $.ajax({
-      url: API_ROOT_URL+"search/tv?api_key="+API_KEY+"&language=en-US&query="+showInput+"&page=1",
-      method: "GET"
-    }).done(function(response) {
-      if (response.results.length == 0){
-        // Alert user that could not find the show
-        $("#show-input").attr("style", "border-color: red; border-width: 1.3px");
-        $("#show-input").attr("placeholder", "Show not found");
-      }
-      else{
-        $("#show-input").removeAttr("style");
-        $("#show-input").attr("placeholder", "Search");
-        
-        omdbId = response.results[0].id;
-        queryShow(omdbId);
-      }
-    });
   }
 })
 
@@ -125,12 +128,3 @@ function queryShow(showID){
 //   queryShow($(this).attr("dataID"));
 // })
 
-// // Event handler when user clicks on an item in the carousel
-// $(document).on("click", ".add-favorite", function(){
-// 	// POST to database
-// })
-
-// // Event handler when user clicks on an item in the carousel
-// $(document).on("click", ".add-watchlist", function(){
-// 	// POST to database
-// })
