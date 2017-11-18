@@ -21,13 +21,12 @@
   <div class="col-md-11">
     <h3 class="relTitle">{{username}} here are all your {{relation}} shows: </h3><br>
   </div>
-
 </div>
 
-<div class="row rel_list justify-content-md text-center">
+<div class="row rel_list justify-content-md">
 	<div class="col-md">
 		{{#each relationArray}}
-			<div class="rel thumbnail float-left">
+			<div class="rel thumbnail float-left text-center">
 	    		<img src={{show.imgURL}} class="img-thumbnail" data-id={{show.OMDB_id}} data-type="item" alt="Cinque Terre" data-toggle="modal" data-target="#showModal"><br><p class="titleCaption">{{show.title}}</p><br></a>
 		  	</div>
 		{{/each}}
