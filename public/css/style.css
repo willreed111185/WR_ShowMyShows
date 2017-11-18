@@ -58,6 +58,7 @@ form, .homebtn {
 }
 .thumbnail {
 	width: 220px;
+	height: 355px;
 }
 .img-thumbnail {
   background-position: 20px 20px;
