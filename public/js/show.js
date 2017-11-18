@@ -22,7 +22,6 @@ $("#search-btn").click(function(){
 $("#search-form").submit(function(e){
   e.preventDefault();
   var showInput = $("#show-input").val().trim();
-  console.log(showInput);
 
   // Performing GET requests to the the movie database API
   $.ajax({
@@ -74,16 +73,20 @@ $(".add-btn").on("click", function(e){
   var imgSplit = imgURL.split("w185/")[1];
   var relation = button.data('rel');
 
+  // Find and/or Add show in database
   $.ajax({
     url: "/api_ShowLookup/"+userID+"/"+OMDB_ID+"/"+title+"/"+imgSplit,
     method: "POST"
-  }).done(function(response){
-      $.ajax({
-        url: "/api_relation/"+userID+"/"+OMDB_ID+"/"+relation,
-        method: "POST"
-      }).done(function(bridgeResponse){
-          location.reload();
-      })
+  })
+  .done(function(showRes){
+
+    // Link show to user in database
+    $.ajax({
+      url: "/api_relation/"+userID+"/"+showRes.id+"/"+relation,
+      method: "POST"
+    }).done(function(bridgeRes){
+        location.reload();
+    })
   })
 });
 
@@ -96,14 +99,11 @@ function queryShow(showID){
     method: "GET"
   }).done(function(response) {
 
-    //write to modal
+    // Update to modal
     $("#ShowTitle").html(response.name);
     $("#time").html(response.last_air_date);
     $("#plot").html(response.overview);
     $("#modImage").attr("src", imgBaseUrl+response.poster_path);
     $(".add-btn").attr("data-showId", showID);
-//    $("#watch-btn").attr("data-showId", showID);
   }); 
 }
-
-// Delete user_show relationship

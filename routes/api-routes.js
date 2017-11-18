@@ -1,31 +1,10 @@
 var db = require("../models");
-var isItemUnique = function(queryColumn,queryItem,queryTable) {
-  if (queryColumn=="username"){
-    return queryTable.count({ where: {username : queryItem } })
-      .then(count => {
-        if (count != 0) {
-          return false;
-        }
-        return true;
-    });
-  }
-  if (queryColumn=="OMDB_id"){
-    return db.show.count({ where: {OMDB_id : queryItem } })
-      .then(count => {
-        console.log("COUNT COUNT COUNT: ",count);
-        if (count != 0) {
-          return false;
-        }
-       return true;
-    });
-  }
-};
 
 module.exports = function(app) {
 
-  // Add a new user to the DB
+  // Add a new user to the DB if they do not exist
   app.post("/api/user", function(req, res) {
-    // Check if user already exists
+
     db.user.findOrCreate({
       where: {
         username: req.body.username
@@ -64,10 +43,8 @@ module.exports = function(app) {
 
  //get the newest five of each category and GET to HdnlBars for User Homepage
   app.get("/user/:userid", function(req, res) {
-    console.log("GET /user/userid");
 
     var currentID = req.params.userid;
-    console.log("User Id Selected: " + currentID);
 
     db.user_show.findAll({
       where:{
@@ -107,11 +84,11 @@ module.exports = function(app) {
               favorite: favoritesArray,
               watchList: watchlistArray
             }
-            //res.json(user);
             res.render("index", user);
           })
         })
       })
+
   });
 
   // Display all shows in the relation for user
@@ -119,14 +96,12 @@ module.exports = function(app) {
 
     var currentID = req.params.userid;
     var currentRelation = req.params.relation;
-    console.log("RELATION, User Id Selected: " +currentRelation+" "+ currentID);
 
     db.user_show.findAll({
       where:{
         userId:currentID,
         relation:currentRelation
       },
-      //limit:5,
       order:[
         ['createdAt','DESC']
       ],
@@ -143,164 +118,73 @@ module.exports = function(app) {
           relation: currentRelation,
           relationArray: relationArray
         }
-        //res.json(user);
         res.render("relationship", user);
       })
     })
+
   });
 
 
- //POST api info to DB to add new show if it doesn't exist
+  // Add new show if it does not already exists
   app.post("/api_ShowLookup/:userID/:OMDB_ID/:title/:imgURL", function(req, res) {
+    
     var imgBaseUrl = "https://image.tmdb.org/t/p/w185/";
-    isItemUnique("OMDB_id",req.params.OMDB_ID,db.show).then(isUnique => {
-      if(isUnique){
-        console.log("SHOW IS UNIQUE : TRUE");
-        db.show.create({
-          title:req.params.title,
-          OMDB_id:req.params.OMDB_ID,
-          imgURL:imgBaseUrl+req.params.imgURL,
-          contentURL:"https://content.jwplatform.com/players/V7gKg9PI-UbMgy82L.html"
-        }).then(function(showCreate){
-          console.log(showCreate);
-          res.send(true);
-          res.redirect("/user/"+req.params.userID);
-        });
-      } else {
-        console.log("SHOW IS UNIQUE : FALSE");
+
+    db.show.findOrCreate({
+      where: {
+        OMDB_id: req.params.OMDB_ID
+      },
+      defaults: {
+          title: req.params.title,
+          OMDB_id: req.params.OMDB_ID,
+          imgURL: imgBaseUrl+req.params.imgURL,
+          contentURL: "blank"
+      }
+    }).spread((show, created) => {
+        plain:true
+
+        if(created){
+          console.log("SHOW ADDED TO DATABASE");     
+        }
+        else {
+          console.log("SHOW ALREADY IN DATABASE");
+        }
+
+        res.send(show);
+    })
+
+  });
+
+  // Adds a user_show row to database if it does not already exists
+  app.post("/api_relation/:userID/:showID/:relation", function(req, res) {
+
+    db.user_show.findOrCreate({
+      where: {
+        userID : req.params.userID,
+        relation: req.params.relation,
+        showID: req.params.showID      
+      },
+      defaults: {
+        relation: req.params.relation        
+      }
+    })
+    .spread((showUser, created) => {
+        plain:true
+
+        if(created){
+          showUser.userId = req.params.userID,
+          showUser.showId = req.params.showID,
+          showUser.save({fields: ['userId', 'showId']}).then(() => {
+            console.log("NEW USER_SHOW ADDED");
+            res.send(true);
+          })
+        }
+      else {
+        console.log("EXISTING USER_SHOW");
         res.send(false);
       }
-    });
+    })
+
   });
 
-  app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
-    //search for show_id by OMDBid in shows, then.... 
-    console.log("RELATIONSHIP CHECK");
-    db.show.findOne({
-      where:{
-        OMDB_id:req.params.OMDB_ID
-      }
-    }).then(function(dbShowIDLookUp){
-      var currentShowID = dbShowIDLookUp.id;
-      console.log("currentShowID: " + currentShowID);
-      console.log("userID: " + req.params.userID);
-      console.log("relation: " + req.params.relation);
-      db.user_show.count({
-        where:{
-          userID : req.params.userID,
-          relation: req.params.relation,
-          showID: currentShowID
-        } 
-      }).then(function(count){
-        console.log("RELATIONSHIP COUNT: " + count);
-          if (count == 0){
-            console.log("RELATION IS UNIQUE : TRUE")
-            db.user_show.create({
-              userID:req.params.userID,
-              showID:dbShowIDLookUp.id,
-              relation:req.params.relation
-            }).then(function(relationCreate){
-              console.log("CREATED RELATION");
-              relationCreate.userId = req.params.userID;
-              relationCreate.showId = currentShowID;
-              relationCreate.save({fields: ['userId','showId']}).then(() => {
-                  res.send(true);
-                })
-              //res.send(true);
-            });
-          }else{
-            console.log("RELATION IS UNIQUE : FALSE");
-            res.send(false);
-          }
-        });
-    });
-  });
-
-
-  // app.get("/api/show/:Showid", function(req, res) {
-  //     // json to return all shows or a specific one (devOps only)
-  //     //   {
-  //     //     [array of all shows or a specific one]
-  //     //   }
-  //   db.Show.findOne({
-  //     limit:1,
-  //     where:{
-  //       OMDB_id:req.params.Showid
-  //     }
-  //   }).then(function(dbShow){
-  //     var showObj = {
-  //       user:dbShow
-  //     }
-  //     console.log(showObj);
-  //     res.render("index", showObj);
-  //   })
-
-  // app.get("/api/show/:Showid", function(req, res) {
-  //     // json to return all shows or a specific one (devOps only)
-  //     //   {
-  //     //     [array of all shows or a specific one]
-  //     //   }
-  //   db.Show.findOne({
-  //     limit:1,
-  //     where:{
-  //       OMDB_id:req.params.Showid
-  //     }
-  //   }).then(function(dbShow){
-  //     var showObj = {
-  //       user:dbShow
-  //     }
-  //     console.log(showObj);
-  //     res.render("index", showObj);
-  //   })
-
-
-  // });
-
-  // app.get("/api/user/:Userid/:relation/?count", function(req, res) {
-  //     // to get whole(or part) view of relationship
-  //     //   {
-  //     //     relationship:[array of relationshipObj{showID, imgURL, title}]
-  //     //   }
-  // });
-  // app.post("/api_relation/:userID/:OMDB_ID/:relation", function(req, res) {
-  //   db.show.findOne({
-  //     where:{
-  //       userID : req.params.userID,
-  //       relation: req.params.relation
-  //     },
-  //     include:{
-  //       model:db.show{
-  //         where:{
-  //           OMDB_id: req.params.OMDB_ID
-  //         }
-  //       }
-  //     }
-  //   }).then(function(dbRelationLookUp){
-  //       console.log(dbRelationLookUp);
-  //     //+++++++++++++++++++
-  //     //IF IT DOESNT EXIST
-  //     //+++++++++++++++++++
-  //       db.user_show.create({
-  //         userID:req.params.userID,
-  //         showID:dbRelationLookUp.id,
-  //         relation:req.params.relation
-  //       }).then(function(relationCreate){
-  //         console.log(relationCreate);
-  //         res.redirect("/user/"+req.params.userID);
-  //       })
-  //   });
-  // }
-
-
-  // app.delete("/api_relation/:userShowID", function(req, res) {
-  //   //   db.Author.destroy({
-  //   //     where: {
-  //   //       id: req.params.id
-  //   //     }
-  //   //   }).then(function(dbAuthor) {
-  //   //     res.json(dbAuthor);
-  //   //   });
-  //   // });
-
-  // });
 }
