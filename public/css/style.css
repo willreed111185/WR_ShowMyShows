@@ -28,11 +28,18 @@ h6 {
 	margin-top: 30px;
 }
 
-.navbar {
+#nav-main {
 	-webkit-box-shadow: 0 8px 6px -6px black;
     -moz-box-shadow: 0 8px 6px -6px black;
     box-shadow: 0 8px 6px -6px black;
 }
+.navbar-dark .navbar-nav .nav-link {
+	color: white;
+}
+#nav-user {
+	font-size: 28px;
+}
+
 form, .homebtn {
 	margin-top: 30px;
 	margin-bottom: 35px;
@@ -75,9 +82,9 @@ i {
 	color: #d9d900;
 	font-size: 100px;
 }
-.fa-home:before {
+/*.fa-home:before {
 	font-size: 50px;
-}
+}*/
 ul {
 	list-style: none;
 }
